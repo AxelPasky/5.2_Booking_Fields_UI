@@ -7,7 +7,7 @@ function Layout() {
     <div className="app-container">
       <header className="app-header">
         <Link to="/" className="logo">
-          <h1>Padel Booker</h1>
+          <h1>Booking Fields</h1>
         </Link>
         <nav>
           <Link to="/">Home</Link>
@@ -20,7 +20,7 @@ function Layout() {
         <Outlet /> {/* This is where the content of each route will be rendered */}
       </main>
       <footer className="app-footer">
-        <p>&copy; 2025 Padel Booker. All rights reserved.</p>
+        <p>&copy; 2025 Booking Fields. All rights reserved.</p>
       </footer>
     </div>
   );
