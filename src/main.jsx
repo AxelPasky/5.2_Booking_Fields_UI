@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FieldsPage from './pages/FieldsPage';
+import ProtectedRoute from './components/ProtectedRoute'; // <-- Importa il componente
 
 import './index.css';
 
@@ -21,7 +22,14 @@ const router = createBrowserRouter([
       { path: "fields", element: <FieldsPage /> },
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
-      { path: "bookings", element: <MyBookingsPage /> },
+      { 
+        path: "bookings", 
+        element: (
+          <ProtectedRoute>
+            <MyBookingsPage />
+          </ProtectedRoute>
+        ) 
+      },
     ]
   }
 ]);
