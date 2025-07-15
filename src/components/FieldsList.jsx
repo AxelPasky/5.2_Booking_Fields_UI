@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import './FieldsList.css';
 
-// We will get the token from our auth context later
-const authToken = null; // Placeholder for now
 const API_URL = 'https://api-booking-fields.up.railway.app/api';
 
-function FieldsList() {
+function FieldList() {
   const [fields, setFields] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { token } = useAuth(); // Usa il token dal context!
 
   useEffect(() => {
-    const fetchFields = async () => {
-      // If there's no token, we can't even try to fetch.
-      if (!authToken) {
-        setError('You must be logged in to view the fields.');
-        setLoading(false);
-        return;
-      }
+    if (!token) {
+      setError('You must be logged in to view the fields.');
+      setLoading(false);
+      return;
+    }
 
+    const fetchFields = async () => {
       try {
         const response = await fetch(`${API_URL}/fields`, {
           headers: {
-            'Authorization': `Bearer ${authToken}`,
+            'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
           },
         });
 
         if (!response.ok) {
-          // This will likely be a 401 error
           throw new Error(`Failed to fetch. Status: ${response.status}`);
         }
         const data = await response.json();
@@ -41,7 +39,7 @@ function FieldsList() {
     };
 
     fetchFields();
-  }, []);
+  }, [token]); // Riesegui l'effetto se il token cambia
 
   if (loading) {
     return <div className="loading-message">Loading fields...</div>;
@@ -68,4 +66,4 @@ function FieldsList() {
   );
 }
 
-export default FieldsList;
+export default FieldList;
