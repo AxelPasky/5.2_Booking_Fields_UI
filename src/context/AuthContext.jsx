@@ -68,10 +68,11 @@ export const AuthProvider = ({ children }) => {
             throw new Error(errorData.message || 'Failed to register');
         }
 
-        const data = await response.json();
-        localStorage.setItem('authToken', data.access_token);
-        setToken(data.access_token);
-        navigate('/fields');
+        // NON salviamo più il token e NON aggiorniamo lo stato.
+        // Reindirizziamo semplicemente alla pagina di login con un messaggio di stato.
+        navigate('/login', {
+            state: { message: 'Registration successful! Please log in.' }
+        });
     };
 
     const logout = async () => {

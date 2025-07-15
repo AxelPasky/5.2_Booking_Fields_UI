@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLocation } from 'react-router-dom'; // <-- Importa useLocation
 import './AuthForm.css';
 
 function LoginPage() {
@@ -8,6 +9,10 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
+    const location = useLocation(); // <-- Usa l'hook per accedere allo stato della navigazione
+
+    // Controlla se c'è un messaggio di successo passato dallo stato della rotta
+    const successMessage = location.state?.message;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +31,8 @@ function LoginPage() {
         <div className="auth-form-container">
             <form onSubmit={handleSubmit} className="auth-form">
                 <h2>Login</h2>
+                {/* Mostra il messaggio di successo se esiste */}
+                {successMessage && <p className="success-message">{successMessage}</p>}
                 {error && <p className="error-message">{error}</p>}
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
