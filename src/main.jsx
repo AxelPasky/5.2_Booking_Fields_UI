@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FieldsPage from './pages/FieldsPage';
+import ProtectedRoute from './components/ProtectedRoute'; // <-- Importa il componente
 
 import './index.css';
 
@@ -18,10 +19,24 @@ const router = createBrowserRouter([
     element: <App />, // App diventa il punto di ingresso per il layout e i context
     children: [
       { index: true, element: <HomePage /> },
-      { path: "fields", element: <FieldsPage /> },
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
-      { path: "bookings", element: <MyBookingsPage /> },
+      { 
+        path: "fields", 
+        element: (
+          <ProtectedRoute>
+            <FieldsPage />
+          </ProtectedRoute>
+        ) 
+      },
+      { 
+        path: "bookings", 
+        element: (
+          <ProtectedRoute>
+            <MyBookingsPage />
+          </ProtectedRoute>
+        ) 
+      },
     ]
   }
 ]);
