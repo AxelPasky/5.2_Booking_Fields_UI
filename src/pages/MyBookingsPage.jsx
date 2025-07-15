@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './MyBookingsPage.css';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://api-booking-fields.up.railway.app/api';
+// Torniamo a usare direttamente l'URL pubblico per ora
+const API_URL = 'https://api-booking-fields.up.railway.app/api';
 
 function MyBookingsPage() {
     const [bookings, setBookings] = useState([]);

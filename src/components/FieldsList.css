@@ -1,10 +1,10 @@
-.field-list-container {
-    width: 100%;
+.fields-list-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem auto;
+    padding: 1rem;
 }
 
-.field-list-container h2 {
+.fields-list-container h2 {
     text-align: center;
     margin-bottom: 2rem;
     color: #2c3e50;
@@ -12,56 +12,102 @@
 
 .fields-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 0;
+    list-style: none;
 }
 
 .field-card {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    overflow: hidden; /* Nasconde parti dell'immagine che escono */
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .field-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
-.field-card h3 {
+.field-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #f0f0f0; /* Colore di sfondo per immagini non caricate */
+}
+
+.field-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Fa in modo che questa sezione occupi lo spazio disponibile */
+}
+
+.field-info h3 {
     margin-top: 0;
+    margin-bottom: 0.5rem;
     color: #34495e;
 }
 
-.field-card .field-type {
-    font-style: italic;
-    color: #7f8c8d;
-    margin-bottom: 1rem;
-}
-
-.field-card .field-description {
-    flex-grow: 1;
+.field-info p {
+    flex-grow: 1; /* Spinge il contenuto sottostante verso il basso */
     color: #555;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
 }
 
-.field-card .field-price {
-    font-size: 1.2rem;
+.field-details {
+    display: flex;
+    justify-content: space-between; /* Allinea tipo e prezzo ai lati opposti */
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.field-details span {
+    background-color: #e9ecef;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: #495057;
+}
+
+.field-details .price {
     font-weight: bold;
-    color: #4CAF50;
-    text-align: right;
+    font-size: 1.1rem;
+    color: #28a745;
+}
+
+.field-actions {
+    margin-top: auto; /* Assicura che il pulsante sia sempre in fondo */
+}
+
+.book-now-button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; /* Occupa tutta la larghezza del contenitore actions */
+    text-align: center;
+}
+
+.book-now-button:hover {
+    background-color: #0056b3;
 }
 
 .loading-message, .error-message {
     text-align: center;
     font-size: 1.2rem;
     padding: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .error-message {
