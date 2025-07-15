@@ -19,9 +19,16 @@ const router = createBrowserRouter([
     element: <App />, // App diventa il punto di ingresso per il layout e i context
     children: [
       { index: true, element: <HomePage /> },
-      { path: "fields", element: <FieldsPage /> },
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
+      { 
+        path: "fields", 
+        element: (
+          <ProtectedRoute>
+            <FieldsPage />
+          </ProtectedRoute>
+        ) 
+      },
       { 
         path: "bookings", 
         element: (

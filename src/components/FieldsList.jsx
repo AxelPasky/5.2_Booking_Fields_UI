@@ -11,11 +11,16 @@ function FieldList() {
   const { token } = useAuth(); // Usa il token dal context!
 
   useEffect(() => {
+    // Questo controllo non è più necessario!
+    // ProtectedRoute si assicura che questo componente venga renderizzato
+    // solo se l'utente è loggato e il token esiste.
+    /* 
     if (!token) {
       setError('You must be logged in to view the fields.');
       setLoading(false);
       return;
     }
+    */
 
     const fetchFields = async () => {
       try {
@@ -38,7 +43,11 @@ function FieldList() {
       }
     };
 
-    fetchFields();
+    // Eseguiamo il fetch solo se il token è presente.
+    // Anche se ridondante grazie a ProtectedRoute, è una buona pratica.
+    if (token) {
+        fetchFields();
+    }
   }, [token]); // Riesegui l'effetto se il token cambia
 
   if (loading) {
