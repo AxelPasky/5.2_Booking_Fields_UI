@@ -11,39 +11,71 @@ function MyBookingsPage() {
     const [error, setError] = useState(null);
     const { token } = useAuth();
 
+    const fetchBookings = async () => {
+        if (!token) {
+            setLoading(false);
+            setError("Authentication token not found.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_URL}/bookings`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setBookings(data.data);
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchBookings = async () => {
-            if (!token) {
-                setLoading(false);
-                setError("Authentication token not found.");
-                return;
-            }
-
-            try {
-                setLoading(true);
-                const response = await fetch(`${API_URL}/bookings`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setBookings(data.data);
-            } catch (e) {
-                setError(e.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchBookings();
     }, [token]);
+
+    const handleCancelBooking = async (bookingId) => {
+        // Chiedi conferma prima di procedere
+        if (!window.confirm('Are you sure you want to cancel this booking?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to cancel booking');
+            }
+
+            // Rimuovi la prenotazione cancellata dallo stato per aggiornare la UI
+            setBookings(currentBookings =>
+                currentBookings.filter(booking => booking.id !== bookingId)
+            );
+            // In alternativa, si potrebbe ricaricare la lista con fetchBookings()
+            
+        } catch (e) {
+            // Mostra un alert in caso di errore
+            alert(`Error: ${e.message}`);
+        }
+    };
 
     if (loading) {
         return <div className="loading-message">Loading your bookings...</div>;
@@ -67,7 +99,12 @@ function MyBookingsPage() {
                             <p><strong>Time:</strong> {new Date(booking.start_time).toLocaleTimeString()} - {new Date(booking.end_time).toLocaleTimeString()}</p>
                             <p><strong>Price:</strong> €{booking.total_price}</p>
                             <p><strong>Status:</strong> <span className={`status status-${booking.status}`}>{booking.status}</span></p>
-                            <button className="cancel-button">Cancel Booking</button>
+                            <button 
+                                className="cancel-button"
+                                onClick={() => handleCancelBooking(booking.id)}
+                            >
+                                Cancel Booking
+                            </button>
                         </li>
                     ))}
                 </ul>
