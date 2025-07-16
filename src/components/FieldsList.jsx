@@ -66,22 +66,23 @@ function FieldsList() {
       <ul className="fields-grid">
         {fields.map((field) => (
           <li key={field.id} className="field-card">
-            <img 
-              src={field.image_url ? field.image_url : 'https://via.placeholder.com/400x250.png?text=Field+Image'} 
-              alt={field.name} 
-              className="field-image" 
-            />
-            <div className="field-info">
-              <h3>{field.name}</h3>
-              <p>{field.description}</p>
-              <div className="field-details">
-                <span>Type: {field.type}</span>
-                <span className="price">€{(parseFloat(field.hourly_rate) || 0).toFixed(2)} / hour</span>
-              </div>
-              <div className="field-actions">
-                <Link to={`/book/${field.id}`} className="book-now-button">
-                  Book Now
-                </Link>
+            <div className="field-card" key={field.id}>
+              <img src={field.image || 'https://via.placeholder.com/300x200'} alt={field.name} className="field-image" />
+              <div className="field-info">
+                <h3>{field.name}</h3>
+                <div className="field-details">
+                  <span>{field.type}</span>
+                  {/* MODIFICA: Usa 'price_per_hour' */}
+                  <span className="price">€{parseFloat(field.price_per_hour).toFixed(2)} / hour</span>
+                </div>
+                <p>{field.description}</p>
+                <div className="field-actions">
+                  {token && (
+                    <Link to={`/book/${field.id}`} className="book-now-button">
+                      Book Now
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </li>

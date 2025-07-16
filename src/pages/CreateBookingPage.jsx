@@ -12,13 +12,14 @@ function CreateBookingPage() {
     const navigate = useNavigate();
 
     const [field, setField] = useState(null);
-    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const [availability, setAvailability] = useState([]);
-    const [selectedSlot, setSelectedSlot] = useState(null);
+    // MODIFICA: selectedSlots ora è un array per la selezione multipla
+    const [selectedSlots, setSelectedSlots] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
     const [loading, setLoading] = useState(true);
-    const [loadingSlots, setLoadingSlots] = useState(false); // Aggiunto per gli slot
+    const [loadingSlots, setLoadingSlots] = useState(false);
     const [error, setError] = useState('');
 
     // ++ AGGIUNTA FUNZIONE MANCANTE ++
@@ -89,39 +90,52 @@ function CreateBookingPage() {
         fetchAvailability();
     }, [selectedDate, fieldId, token]);
 
-    // MODIFICATA: Gestisce la selezione di uno slot (stringa) e calcola l'ora di fine
-    const handleSlotSelection = (startTimeString) => {
-        const startTime = new Date(startTimeString.replace(' ', 'T'));
-        const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Aggiunge 1 ora
-
-        // Formatta le date nel formato 'YYYY-MM-DD HH:MM:SS' richiesto dall'API per l'invio
-        const formatForApi = (date) => {
-            // Per evitare problemi di fuso orario, ricostruiamo la stringa manualmente
-            const pad = (num) => num.toString().padStart(2, '0');
-            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-        };
-
-        const newSelectedSlot = {
-            // MODIFICA: Usiamo la stringa originale per il confronto nella UI
-            // e le stringhe formattate per l'invio all'API.
-            key: startTimeString, // <-- Usato per l'evidenziazione
-            start_time: startTimeString, // <-- Inviato all'API
-            end_time: formatForApi(endTime), // <-- Inviato all'API
-        };
-
-        setSelectedSlot(newSelectedSlot);
-        
-        // Calcola il prezzo
-        const durationHours = 1; // Durata fissa di 1 ora
-        setTotalPrice(durationHours * (parseFloat(field.hourly_rate) || 0));
+    // MODIFICATA: Gestisce la selezione e deselezione di più slot
+    const handleSlotSelection = (slotString) => {
+        setSelectedSlots(prevSlots => {
+            const isSelected = prevSlots.includes(slotString);
+            if (isSelected) {
+                return prevSlots.filter(s => s !== slotString);
+            } else {
+                return [...prevSlots, slotString].sort();
+            }
+        });
     };
+
+    // AGGIUNTA: useEffect per calcolare il prezzo quando gli slot cambiano
+    useEffect(() => {
+        if (selectedSlots.length > 0 && field?.price_per_hour) {
+            // Usa 'price_per_hour' direttamente dall'API
+            const pricePerHour = parseFloat(field.price_per_hour);
+            // Ogni slot dura 30 minuti (come definito in FieldController)
+            const price = selectedSlots.length * (pricePerHour / 2);
+            setTotalPrice(price);
+        } else {
+            setTotalPrice(0);
+        }
+    }, [selectedSlots, field]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!selectedSlot) {
-            alert('Please select a time slot.');
+        if (selectedSlots.length === 0) {
+            setError('Please select at least one time slot.');
             return;
         }
+
+        // Trova l'orario di inizio e di fine del blocco contiguo
+        const firstSlot = selectedSlots[0];
+        const lastSlot = selectedSlots[selectedSlots.length - 1];
+        
+        const lastSlotStartTime = new Date(lastSlot.replace(' ', 'T'));
+        // L'ora di fine è 30 minuti dopo l'inizio dell'ultimo slot
+        const endTime = new Date(lastSlotStartTime.getTime() + 30 * 60 * 1000);
+
+        const bookingDetails = {
+            field_id: fieldId,
+            start_time: firstSlot,
+            end_time: endTime.toISOString().slice(0, 19).replace('T', ' '),
+        };
 
         try {
             const response = await fetch(`${API_URL}/bookings`, {
@@ -129,31 +143,20 @@ function CreateBookingPage() {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                 },
-                body: JSON.stringify({
-                    field_id: fieldId,
-                    start_time: selectedSlot.start_time,
-                    end_time: selectedSlot.end_time,
-                }),
+                body: JSON.stringify(bookingDetails),
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                // Gestisce errori di validazione specifici
-                if (response.status === 422) {
-                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
-                    throw new Error(errorMessages);
-                }
                 throw new Error(errorData.message || 'Failed to create booking.');
             }
 
             alert('Booking created successfully!');
-            navigate('/bookings'); // Reindirizza a "My Bookings"
+            navigate('/my-bookings');
 
         } catch (err) {
             setError(err.message);
-            alert(`Error: ${err.message}`);
         }
     };
 
@@ -190,19 +193,18 @@ function CreateBookingPage() {
                             <div className="slots-container">
                                 {availability.length > 0 ? (
                                     availability
-                                        // MODIFICATO: Filtra solo le stringhe valide
                                         .filter(slot => typeof slot === 'string' && slot.length > 0)
                                         .map((startTimeString) => {
-                                            // Calcoliamo l'ora di fine per la visualizzazione
                                             const startTime = new Date(startTimeString.replace(' ', 'T'));
-                                            const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // +1 ora
+                                            // Gli slot sono di 30 minuti
+                                            const endTime = new Date(startTime.getTime() + 30 * 60 * 1000); 
 
                                             return (
                                                 <button
                                                     type="button"
                                                     key={startTimeString}
-                                                    // MODIFICA: Confronta con la chiave salvata
-                                                    className={`slot-button ${selectedSlot?.key === startTimeString ? 'selected' : ''}`}
+                                                    // MODIFICA: Controlla se lo slot è nell'array
+                                                    className={`slot-button ${selectedSlots.includes(startTimeString) ? 'selected' : ''}`}
                                                     onClick={() => handleSlotSelection(startTimeString)}
                                                 >
                                                     {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -218,13 +220,14 @@ function CreateBookingPage() {
                         </div>
                     )}
 
-                    {selectedSlot && (
+                    {/* MODIFICA: Mostra il prezzo solo se ci sono slot selezionati */}
+                    {selectedSlots.length > 0 && (
                         <div className="price-summary">
                             Total Price: <strong>€{totalPrice.toFixed(2)}</strong>
                         </div>
                     )}
 
-                    <button type="submit" className="submit-booking-button" disabled={!selectedSlot}>
+                    <button type="submit" className="submit-booking-button" disabled={selectedSlots.length === 0}>
                         Confirm Booking
                     </button>
                 </form>
