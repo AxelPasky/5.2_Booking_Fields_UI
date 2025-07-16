@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FieldsPage from './pages/FieldsPage';
-import BookingPage from './pages/BookingPage'; // <-- Importa la nuova pagina
+import CreateBookingPage from './pages/CreateBookingPage'; // <-- MODIFICATO
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './index.css';
@@ -29,10 +29,10 @@ const router = createBrowserRouter([
         ) 
       },
       { 
-        path: "book/:fieldId", // <-- Aggiungi la nuova rotta dinamica
+        path: "book/:fieldId",
         element: (
           <ProtectedRoute>
-            <BookingPage />
+            <CreateBookingPage /> {/* <-- MODIFICATO */}
           </ProtectedRoute>
         ) 
       },
