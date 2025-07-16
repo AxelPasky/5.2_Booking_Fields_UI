@@ -14,7 +14,7 @@ function CreateBookingPage() {
     const [field, setField] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const [availability, setAvailability] = useState([]);
-    // MODIFICA: selectedSlots ora è un array per la selezione multipla
+    // MODIFICA: Lo stato ora gestisce un array di slot selezionati
     const [selectedSlots, setSelectedSlots] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
@@ -22,9 +22,9 @@ function CreateBookingPage() {
     const [loadingSlots, setLoadingSlots] = useState(false);
     const [error, setError] = useState('');
 
-    // ++ AGGIUNTA FUNZIONE MANCANTE ++
     const handleDateChange = (e) => {
         setSelectedDate(e.target.value);
+        setSelectedSlots([]); // Resetta gli slot quando la data cambia
     };
 
     // 1. Recupera i dettagli del campo (invariato)
@@ -61,10 +61,10 @@ function CreateBookingPage() {
             setLoadingSlots(true);
             setError('');
             setAvailability([]);
-            setSelectedSlot(null);
+            // RIMUOVI QUESTA RIGA: Lo stato 'selectedSlot' non esiste più
+            // setSelectedSlot(null); 
 
             try {
-                // RIPRISTINO: Torniamo a usare GET con un parametro query nell'URL
                 const response = await fetch(`${API_URL}/fields/${fieldId}/availability?date=${selectedDate}`, {
                     method: 'GET', // <-- Riportato a GET
                     headers: {
@@ -90,26 +90,27 @@ function CreateBookingPage() {
         fetchAvailability();
     }, [selectedDate, fieldId, token]);
 
-    // MODIFICATA: Gestisce la selezione e deselezione di più slot
+    // MODIFICATA: Logica per aggiungere/rimuovere slot dall'array
     const handleSlotSelection = (slotString) => {
         setSelectedSlots(prevSlots => {
             const isSelected = prevSlots.includes(slotString);
             if (isSelected) {
+                // Deseleziona lo slot cliccato
                 return prevSlots.filter(s => s !== slotString);
             } else {
+                // Aggiunge il nuovo slot e mantiene l'ordine cronologico
                 return [...prevSlots, slotString].sort();
             }
         });
     };
 
-    // AGGIUNTA: useEffect per calcolare il prezzo quando gli slot cambiano
+    // MODIFICATA: Calcola il prezzo totale in base al numero di slot
     useEffect(() => {
         if (selectedSlots.length > 0 && field?.price_per_hour) {
-            // Usa 'price_per_hour' direttamente dall'API
             const pricePerHour = parseFloat(field.price_per_hour);
-            // Ogni slot dura 30 minuti (come definito in FieldController)
-            const price = selectedSlots.length * (pricePerHour / 2);
-            setTotalPrice(price);
+            // Il backend genera slot ogni 30 minuti
+            const pricePerSlot = pricePerHour / 2;
+            setTotalPrice(selectedSlots.length * pricePerSlot);
         } else {
             setTotalPrice(0);
         }
@@ -123,17 +124,19 @@ function CreateBookingPage() {
             return;
         }
 
-        // Trova l'orario di inizio e di fine del blocco contiguo
-        const firstSlot = selectedSlots[0];
+        // Determina l'inizio del primo slot e la fine dell'ultimo
+         const firstSlot = selectedSlots[0];
         const lastSlot = selectedSlots[selectedSlots.length - 1];
         
-        const lastSlotStartTime = new Date(lastSlot.replace(' ', 'T'));
-        // L'ora di fine è 30 minuti dopo l'inizio dell'ultimo slot
+        // MODIFICA: Aggiungi 'Z' per trattare la data come UTC ed evitare problemi di fuso orario
+        const lastSlotStartTime = new Date(lastSlot.replace(' ', 'T') + 'Z');
+        // L'ora di fine della prenotazione è 30 minuti dopo l'inizio dell'ultimo slot
         const endTime = new Date(lastSlotStartTime.getTime() + 30 * 60 * 1000);
 
         const bookingDetails = {
             field_id: fieldId,
             start_time: firstSlot,
+            // MODIFICA: Assicura che anche l'ora di fine sia formattata correttamente come UTC
             end_time: endTime.toISOString().slice(0, 19).replace('T', ' '),
         };
 
@@ -143,6 +146,8 @@ function CreateBookingPage() {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
+                    // AGGIUNTA: Assicura che Laravel risponda con JSON in caso di errore
+                    'Accept': 'application/json', 
                 },
                 body: JSON.stringify(bookingDetails),
             });
@@ -153,7 +158,7 @@ function CreateBookingPage() {
             }
 
             alert('Booking created successfully!');
-            navigate('/my-bookings');
+            navigate('/bookings');
 
         } catch (err) {
             setError(err.message);
@@ -169,7 +174,8 @@ function CreateBookingPage() {
             <div className="booking-form-card">
                 <h2>Book: {field.name}</h2>
                 <p className="field-description">{field.description}</p>
-                <p className="field-price">Rate: <strong>€{parseFloat(field.hourly_rate || 0).toFixed(2)} / hour</strong></p>
+                {/* MODIFICA: Usa 'price_per_hour' come fornito dall'API */}
+                <p className="field-price">Rate: <strong>€{parseFloat(field.price_per_hour || 0).toFixed(2)} / hour</strong></p>
                 
                 <hr />
 
@@ -196,14 +202,13 @@ function CreateBookingPage() {
                                         .filter(slot => typeof slot === 'string' && slot.length > 0)
                                         .map((startTimeString) => {
                                             const startTime = new Date(startTimeString.replace(' ', 'T'));
-                                            // Gli slot sono di 30 minuti
-                                            const endTime = new Date(startTime.getTime() + 30 * 60 * 1000); 
+                                            const endTime = new Date(startTime.getTime() + 30 * 60 * 1000); // Slot di 30 min
 
                                             return (
                                                 <button
                                                     type="button"
                                                     key={startTimeString}
-                                                    // MODIFICA: Controlla se lo slot è nell'array
+                                                    // MODIFICA: Evidenzia se lo slot è nell'array
                                                     className={`slot-button ${selectedSlots.includes(startTimeString) ? 'selected' : ''}`}
                                                     onClick={() => handleSlotSelection(startTimeString)}
                                                 >
@@ -220,7 +225,7 @@ function CreateBookingPage() {
                         </div>
                     )}
 
-                    {/* MODIFICA: Mostra il prezzo solo se ci sono slot selezionati */}
+                    {/* MODIFICA: Mostra il prezzo solo se sono stati selezionati degli slot */}
                     {selectedSlots.length > 0 && (
                         <div className="price-summary">
                             Total Price: <strong>€{totalPrice.toFixed(2)}</strong>
