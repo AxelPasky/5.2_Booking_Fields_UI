@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import './CreateBookingPage.css'; // Per ora manteniamo lo stesso CSS
+import './CreateBookingPage.css'; 
 
 // Usiamo l'API pubblica per ora
 const API_URL = 'https://api-booking-fields.up.railway.app/api';
 
-function CreateBookingPage() { // <-- RINOMINATO QUI
+function CreateBookingPage() {
     const { fieldId } = useParams();
     const { token } = useAuth();
     const navigate = useNavigate();
@@ -18,9 +18,15 @@ function CreateBookingPage() { // <-- RINOMINATO QUI
     const [totalPrice, setTotalPrice] = useState(0);
 
     const [loading, setLoading] = useState(true);
+    const [loadingSlots, setLoadingSlots] = useState(false); // Aggiunto per gli slot
     const [error, setError] = useState('');
 
-    // 1. Recupera i dettagli del campo all'avvio
+    // ++ AGGIUNTA FUNZIONE MANCANTE ++
+    const handleDateChange = (e) => {
+        setSelectedDate(e.target.value);
+    };
+
+    // 1. Recupera i dettagli del campo (invariato)
     useEffect(() => {
         const fetchFieldDetails = async () => {
             try {
@@ -43,17 +49,112 @@ function CreateBookingPage() { // <-- RINOMINATO QUI
         fetchFieldDetails();
     }, [fieldId, token]);
 
-    // Funzioni che implementeremo dopo
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
-        // Qui in futuro faremo la chiamata per l'availability
-        console.log("Data selezionata:", e.target.value);
+    // 2. Recupera la disponibilità quando la data cambia
+    useEffect(() => {
+        if (!selectedDate) {
+            setAvailability([]);
+            return;
+        }
+
+        const fetchAvailability = async () => {
+            setLoadingSlots(true);
+            setError('');
+            setAvailability([]);
+            setSelectedSlot(null);
+
+            try {
+                // RIPRISTINO: Torniamo a usare GET con un parametro query nell'URL
+                const response = await fetch(`${API_URL}/fields/${fieldId}/availability?date=${selectedDate}`, {
+                    method: 'GET', // <-- Riportato a GET
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json',
+                    },
+                    // Nessun body per la richiesta GET
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.message || 'Failed to fetch availability.');
+                }
+                const data = await response.json();
+                setAvailability(data.data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoadingSlots(false);
+            }
+        };
+
+        fetchAvailability();
+    }, [selectedDate, fieldId, token]);
+
+    // MODIFICATA: Gestisce la selezione di uno slot (stringa) e calcola l'ora di fine
+    const handleSlotSelection = (startTimeString) => {
+        const startTime = new Date(startTimeString.replace(' ', 'T'));
+        const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Aggiunge 1 ora
+
+        // Formatta le date nel formato 'YYYY-MM-DD HH:MM:SS' richiesto dall'API per l'invio
+        const formatForApi = (date) => {
+            // Per evitare problemi di fuso orario, ricostruiamo la stringa manualmente
+            const pad = (num) => num.toString().padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+        };
+
+        const newSelectedSlot = {
+            // MODIFICA: Usiamo la stringa originale per il confronto nella UI
+            // e le stringhe formattate per l'invio all'API.
+            key: startTimeString, // <-- Usato per l'evidenziazione
+            start_time: startTimeString, // <-- Inviato all'API
+            end_time: formatForApi(endTime), // <-- Inviato all'API
+        };
+
+        setSelectedSlot(newSelectedSlot);
+        
+        // Calcola il prezzo
+        const durationHours = 1; // Durata fissa di 1 ora
+        setTotalPrice(durationHours * (parseFloat(field.hourly_rate) || 0));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Qui in futuro invieremo la prenotazione
-        alert('Booking submission logic to be implemented!');
+        if (!selectedSlot) {
+            alert('Please select a time slot.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/bookings`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    field_id: fieldId,
+                    start_time: selectedSlot.start_time,
+                    end_time: selectedSlot.end_time,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                // Gestisce errori di validazione specifici
+                if (response.status === 422) {
+                    const errorMessages = Object.values(errorData.errors).flat().join('\n');
+                    throw new Error(errorMessages);
+                }
+                throw new Error(errorData.message || 'Failed to create booking.');
+            }
+
+            alert('Booking created successfully!');
+            navigate('/bookings'); // Reindirizza a "My Bookings"
+
+        } catch (err) {
+            setError(err.message);
+            alert(`Error: ${err.message}`);
+        }
     };
 
     if (loading) return <div className="loading-message">Loading field information...</div>;
@@ -77,12 +178,51 @@ function CreateBookingPage() { // <-- RINOMINATO QUI
                             id="booking-date"
                             value={selectedDate}
                             onChange={handleDateChange}
-                            min={new Date().toISOString().split('T')[0]} // Imposta la data minima a oggi
+                            min={new Date().toISOString().split('T')[0]}
                             required
                         />
                     </div>
 
-                    {/* Qui mostreremo gli slot disponibili */}
+                    {selectedDate && (
+                        <div className="form-group">
+                            <label>2. Select an Available Time Slot</label>
+                            {loadingSlots && <p>Loading slots...</p>}
+                            <div className="slots-container">
+                                {availability.length > 0 ? (
+                                    availability
+                                        // MODIFICATO: Filtra solo le stringhe valide
+                                        .filter(slot => typeof slot === 'string' && slot.length > 0)
+                                        .map((startTimeString) => {
+                                            // Calcoliamo l'ora di fine per la visualizzazione
+                                            const startTime = new Date(startTimeString.replace(' ', 'T'));
+                                            const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // +1 ora
+
+                                            return (
+                                                <button
+                                                    type="button"
+                                                    key={startTimeString}
+                                                    // MODIFICA: Confronta con la chiave salvata
+                                                    className={`slot-button ${selectedSlot?.key === startTimeString ? 'selected' : ''}`}
+                                                    onClick={() => handleSlotSelection(startTimeString)}
+                                                >
+                                                    {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    -
+                                                    {endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </button>
+                                            );
+                                        })
+                                ) : (
+                                    !loadingSlots && <p>No available slots for this date.</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {selectedSlot && (
+                        <div className="price-summary">
+                            Total Price: <strong>€{totalPrice.toFixed(2)}</strong>
+                        </div>
+                    )}
 
                     <button type="submit" className="submit-booking-button" disabled={!selectedSlot}>
                         Confirm Booking
@@ -93,4 +233,4 @@ function CreateBookingPage() { // <-- RINOMINATO QUI
     );
 }
 
-export default CreateBookingPage; // <-- E QUI
+export default CreateBookingPage;

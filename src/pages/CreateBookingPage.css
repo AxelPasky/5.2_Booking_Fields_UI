@@ -62,6 +62,43 @@
     box-sizing: border-box;
 }
 
+.slots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+}
+
+.slot-button {
+    padding: 0.8rem;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+
+.slot-button:hover {
+    background-color: #e6f2ff;
+}
+
+.slot-button.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.price-summary {
+    text-align: right;
+    font-size: 1.3rem;
+    margin: 1.5rem 0;
+    color: #333;
+}
+
+.price-summary strong {
+    color: #28a745;
+}
+
 .submit-booking-button {
     width: 100%;
     padding: 0.9rem;

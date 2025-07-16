@@ -1,6 +1,7 @@
 // filepath: 5.2_Booking_Fields_UI/src/pages/MyBookingsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom'; // <-- IMPORTA LINK
 import './MyBookingsPage.css';
 
 // Torniamo a usare direttamente l'URL pubblico per ora
@@ -90,22 +91,29 @@ function MyBookingsPage() {
         <div className="bookings-container">
             <h2>My Bookings</h2>
             {bookings.length === 0 ? (
-                <p>You have no bookings yet.</p>
+                <div className="no-bookings-message">
+                    <p>You don't have any bookings yet.</p>
+                    <p>Ready to play? Find a field and make your first booking!</p>
+                    <Link to="/fields" className="btn-primary">Browse Fields</Link>
+                </div>
             ) : (
                 <ul className="bookings-list">
                     {bookings.map((booking) => (
                         <li key={booking.id} className="booking-card">
-                            <h3>{booking.field.name}</h3>
+                            {/* AGGIUNTA: Controlla se booking.field esiste prima di usarlo */}
+                            <h3>{booking.field ? booking.field.name : 'Field name not available'}</h3>
                             <p><strong>Date:</strong> {new Date(booking.start_time).toLocaleDateString()}</p>
-                            <p><strong>Time:</strong> {new Date(booking.start_time).toLocaleTimeString()} - {new Date(booking.end_time).toLocaleTimeString()}</p>
-                            <p><strong>Price:</strong> €{booking.total_price}</p>
+                            <p><strong>Time:</strong> {new Date(booking.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {new Date(booking.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                            <p><strong>Price:</strong> €{parseFloat(booking.total_price).toFixed(2)}</p>
                             <p><strong>Status:</strong> <span className={`status status-${booking.status}`}>{booking.status}</span></p>
-                            <button 
-                                className="cancel-button"
-                                onClick={() => handleCancelBooking(booking.id)}
-                            >
-                                Cancel Booking
-                            </button>
+                            {booking.status !== 'cancelled' && (
+                                <button 
+                                    className="cancel-button"
+                                    onClick={() => handleCancelBooking(booking.id)}
+                                >
+                                    Cancel Booking
+                                </button>
+                            )}
                         </li>
                     ))}
                 </ul>
