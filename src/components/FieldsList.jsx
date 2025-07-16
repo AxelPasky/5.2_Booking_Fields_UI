@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import './FieldsList.css';
 
+// Torniamo a usare direttamente l'URL pubblico per ora
 const API_URL = 'https://api-booking-fields.up.railway.app/api';
 
-function FieldList() {
+function FieldsList() {
   const [fields, setFields] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,20 +61,35 @@ function FieldList() {
   }
 
   return (
-    <div className="field-list-container">
-      <h2>Our Padel Fields</h2>
-      <div className="fields-grid">
+    <div className="fields-list-container">
+      <h2>Available Fields</h2>
+      <ul className="fields-grid">
         {fields.map((field) => (
-          <div key={field.id} className="field-card">
-            <h3>{field.name}</h3>
-            <p className="field-type">{field.type}</p>
-            <p className="field-description">{field.description}</p>
-            <div className="field-price">€{field.price_per_hour} / hour</div>
-          </div>
+          <li key={field.id} className="field-card">
+            <div className="field-card" key={field.id}>
+              <img src={field.image || 'https://via.placeholder.com/300x200'} alt={field.name} className="field-image" />
+              <div className="field-info">
+                <h3>{field.name}</h3>
+                <div className="field-details">
+                  <span>{field.type}</span>
+                  {/* MODIFICA: Usa 'price_per_hour' */}
+                  <span className="price">€{parseFloat(field.price_per_hour).toFixed(2)} / hour</span>
+                </div>
+                <p>{field.description}</p>
+                <div className="field-actions">
+                  {token && (
+                    <Link to={`/book/${field.id}`} className="book-now-button">
+                      Book Now
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
 
-export default FieldList;
+export default FieldsList;
