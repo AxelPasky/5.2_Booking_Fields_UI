@@ -21,22 +21,27 @@ function Layout() {
       {!isFullScreenPage && (
         <header className="app-header">
           <Link to="/" className="logo">
+            <img src="/logo.svg" alt="Booking Fields Logo" className="header-logo" />
             <h1>Booking Fields</h1>
           </Link>
           <nav>
             {user ? (
               <>
-                <span className="welcome-user">Welcome, {user.name}!</span>
-                <Link to="/fields">Fields</Link>
-                <Link to="/bookings">My Bookings</Link>
-                <button onClick={logout} className="logout-button">Logout</button>
+                <div className="nav-links">
+                  <Link to="/fields">Fields</Link>
+                  <Link to="/bookings">My Bookings</Link>
+                </div>
+                <div className="user-actions">
+                  <span className="welcome-user">Welcome, {user.name}!</span>
+                  <button onClick={logout} className="logout-button">Logout</button>
+                </div>
               </>
             ) : (
               // Questo blocco non verrà mai mostrato qui, ma lo lasciamo per coerenza
-              <>
+              <div className="nav-links">
                 <Link to="/login">Login</Link>
                 <Link to="/register">Register</Link>
-              </>
+              </div>
             )}
           </nav>
         </header>
