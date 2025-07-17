@@ -35,10 +35,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem; /* Ridotto padding verticale */
   background-color: rgba(255, 255, 255, 0.9); /* Sfondo header semi-trasparente */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-bottom: 3px solid #4CAF50;
+}
+
+.app-header .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-logo {
+  height: 40px; /* Dimensione del logo */
+  margin-right: 0.75rem;
 }
 
 .app-header .logo h1 {
@@ -47,20 +58,59 @@
   font-size: 1.5rem;
 }
 
-.app-header .logo {
-    text-decoration: none;
+.app-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0 auto; /* Centra i link di navigazione */
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.welcome-user {
+  color: #34495e;
+  font-weight: 500;
+  white-space: nowrap; /* Evita che il testo vada a capo */
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 1px solid #c0392b;
+  color: #c0392b;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+  color: white;
 }
 
 .app-header nav a {
-  margin-left: 1.5rem;
   text-decoration: none;
   color: #34495e;
   font-weight: 500;
-  transition: color 0.3s;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
 }
 
 .app-header nav a:hover {
   color: #4CAF50;
+  border-bottom-color: #4CAF50;
 }
 
 .app-main {
