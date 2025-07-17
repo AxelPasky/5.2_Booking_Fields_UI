@@ -67,7 +67,12 @@ function FieldsList() {
         {fields.map((field) => (
           <li key={field.id} className="field-card">
             <div className="field-card" key={field.id}>
-              <img src={field.image || 'https://via.placeholder.com/300x200'} alt={field.name} className="field-image" />
+              <img
+                src={`/Images/${field.name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
+                alt={field.name}
+                className="field-image"
+                onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x200'; }}
+              />
               <div className="field-info">
                 <h3>{field.name}</h3>
                 <div className="field-details">
