@@ -68,6 +68,12 @@
   padding: 2rem;
 }
 
+/* AGGIUNTA: Stile per il main a tutta pagina (usato dalla homepage) */
+.app-main-full {
+  flex-grow: 1;
+  padding: 0; /* Rimuove il padding per la landing page */
+}
+
 .app-footer {
   text-align: center;
   padding: 1rem;

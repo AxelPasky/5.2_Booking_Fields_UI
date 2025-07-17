@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom'; // Importa useLocation
 import { useAuth } from '../context/AuthContext';
 import './Layout.css';
 
 function Layout() {
   const { user, logout } = useAuth();
+  const location = useLocation(); // Ottieni la posizione corrente
+  const isHomePage = location.pathname === '/'; // Controlla se siamo sulla homepage
 
   return (
     <div className="app-container">
@@ -15,32 +17,41 @@ function Layout() {
         Your browser does not support the video tag.
       </video>
 
-      <header className="app-header">
-        <Link to="/" className="logo">
-          <h1>Booking Fields</h1>
-        </Link>
-        <nav>
-          {user ? (
-            <>
-              <span className="welcome-user">Welcome, {user.name}!</span>
-              <Link to="/fields">Fields</Link>
-              <Link to="/bookings">My Bookings</Link>
-              <button onClick={logout} className="logout-button">Logout</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </>
-          )}
-        </nav>
-      </header>
-      <main className="app-main">
+      {/* Mostra l'header solo se NON siamo sulla homepage */}
+      {!isHomePage && (
+        <header className="app-header">
+          <Link to="/" className="logo">
+            <h1>Booking Fields</h1>
+          </Link>
+          <nav>
+            {user ? (
+              <>
+                <span className="welcome-user">Welcome, {user.name}!</span>
+                <Link to="/fields">Fields</Link>
+                <Link to="/bookings">My Bookings</Link>
+                <button onClick={logout} className="logout-button">Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+              </>
+            )}
+          </nav>
+        </header>
+      )}
+
+      {/* Il main ora non ha bisogno di padding se è la homepage */}
+      <main className={isHomePage ? 'app-main-full' : 'app-main'}>
         <Outlet />
       </main>
-      <footer className="app-footer">
-        <p>&copy; 2025 Booking Fields. All rights reserved.</p>
-      </footer>
+
+      {/* Mostra il footer solo se NON siamo sulla homepage */}
+      {!isHomePage && (
+        <footer className="app-footer">
+          <p>&copy; 2025 Booking Fields. All rights reserved.</p>
+        </footer>
+      )}
     </div>
   );
 }
