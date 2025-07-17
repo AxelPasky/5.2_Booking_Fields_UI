@@ -30,8 +30,9 @@
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #eee; /* MODIFICA: Testo più chiaro */
-    font-weight: 500;
+    color: #fff; /* Testo bianco puro per massima visibilità */
+    font-weight: 700; /* MODIFICA: Aumentato il grassetto per maggiore leggibilità */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* MODIFICA: Ombra più marcata per staccare il testo dallo sfondo */
 }
 
 .form-group input {
@@ -45,6 +46,7 @@
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
     border-color: rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* AGGIUNTA: Ombra leggera anche nell'input */
 }
 
 .form-group input:focus {
