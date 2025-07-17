@@ -9,15 +9,18 @@
     width: 100%;
     max-width: 400px;
     padding: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
+    /* MODIFICA: Sfondo semi-trasparente come la homepage */
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 15px; /* Arrotonda gli angoli come la homepage */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px); /* Effetto vetro smerigliato come la homepage */
+    color: #fff; /* Cambia il colore del testo per la leggibilità */
 }
 
 .auth-form h2 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #2c3e50;
+    color: #fff; /* MODIFICA: Testo bianco */
 }
 
 .form-group {
@@ -27,8 +30,9 @@
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #34495e;
-    font-weight: 500;
+    color: #fff; /* Testo bianco puro per massima visibilità */
+    font-weight: 700; /* MODIFICA: Aumentato il grassetto per maggiore leggibilità */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* MODIFICA: Ombra più marcata per staccare il testo dallo sfondo */
 }
 
 .form-group input {
@@ -38,6 +42,11 @@
     border-radius: 4px;
     font-size: 1rem;
     box-sizing: border-box; /* Assicura che il padding non alteri la larghezza */
+    /* AGGIUNTA: Stili per input su sfondo scuro */
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* AGGIUNTA: Ombra leggera anche nell'input */
 }
 
 .form-group input:focus {
