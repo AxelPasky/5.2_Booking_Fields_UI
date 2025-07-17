@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color: #213547;
-  background-color: #f4f7f6; /* Sfondo coerente con il layout */
+  background-color: #f4f7f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -12,9 +12,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: 0;
+}
+
 a {
   font-weight: 500;
-  color: #007bff; /* Un blu più standard per i link */
+  color: #007bff;
   text-decoration: inherit;
   transition: color 0.25s;
 }
@@ -22,33 +26,9 @@ a:hover {
   color: #0056b3;
 }
 
-body {
-  margin: 0;
-  /* Rimuoviamo display: flex e place-items: center per un controllo completo dal nostro Layout */
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
+/* Rimuoviamo gli stili generici per i bottoni, li definiremo nei loro componenti */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
@@ -58,8 +38,5 @@ button:focus-visible {
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }

@@ -8,6 +8,13 @@ function Layout() {
 
   return (
     <div className="app-container">
+      {/* AGGIUNTA: Video di sfondo */}
+      <video autoPlay loop muted className="background-video">
+        {/* Assicurati che il video sia in public/background-video.mp4 */}
+        <source src="/background-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
       <header className="app-header">
         <Link to="/" className="logo">
           <h1>Booking Fields</h1>
