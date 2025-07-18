@@ -1,11 +1,13 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next'; // Importa
 import './Layout.css';
 
 function Layout() {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const { t } = useTranslation(); // Inizializza
 
   // MODIFICA: Considera anche /login e /register come pagine a schermo intero
   const isFullScreenPage = ['/', '/login', '/register'].includes(location.pathname);
@@ -28,19 +30,19 @@ function Layout() {
             {user ? (
               <>
                 <div className="nav-links">
-                  <Link to="/fields">Fields</Link>
-                  <Link to="/bookings">My Bookings</Link>
+                  <Link to="/fields">{t('fields')}</Link>
+                  <Link to="/bookings">{t('myBookings')}</Link>
                 </div>
                 <div className="user-actions">
-                  <span className="welcome-user">Welcome, {user.name}!</span>
-                  <button onClick={logout} className="logout-button">Logout</button>
+                  <span className="welcome-user">{t('welcome', { name: user.name })}</span>
+                  <button onClick={logout} className="logout-button">{t('logout')}</button>
                 </div>
               </>
             ) : (
               // Questo blocco non verrà mai mostrato qui, ma lo lasciamo per coerenza
               <div className="nav-links">
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
+                <Link to="/login">{t('login')}</Link>
+                <Link to="/register">{t('register')}</Link>
               </div>
             )}
           </nav>
@@ -55,7 +57,7 @@ function Layout() {
       {/* Mostra il footer solo se NON siamo su una pagina a schermo intero */}
       {!isFullScreenPage && (
         <footer className="app-footer">
-          <p>&copy; 2025 Booking Fields. All rights reserved.</p>
+          <p>{t('copyright')}</p>
         </footer>
       )}
     </div>

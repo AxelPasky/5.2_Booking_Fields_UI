@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next'; // Importa
 import './AuthForm.css'; // Riutilizziamo lo stesso stile del login
 
 function RegisterPage() {
@@ -10,11 +11,12 @@ function RegisterPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
+    const { t } = useTranslation(); // Inizializza
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (password !== passwordConfirmation) {
-            setError("Passwords do not match.");
+            setError(t('passwordsDoNotMatch'));
             return;
         }
         setError('');
@@ -37,10 +39,10 @@ function RegisterPage() {
     return (
         <div className="auth-form-container">
             <form onSubmit={handleSubmit} className="auth-form">
-                <h2>Register</h2>
+                <h2>{t('register')}</h2>
                 {error && <p className="error-message">{error}</p>}
                 <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">{t('name')}</label>
                     <input
                         type="text"
                         id="name"
@@ -50,7 +52,7 @@ function RegisterPage() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">{t('email')}</label>
                     <input
                         type="email"
                         id="email"
@@ -60,7 +62,7 @@ function RegisterPage() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">{t('password')}</label>
                     <input
                         type="password"
                         id="password"
@@ -70,7 +72,7 @@ function RegisterPage() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password-confirmation">Confirm Password</label>
+                    <label htmlFor="password-confirmation">{t('confirmPassword')}</label>
                     <input
                         type="password"
                         id="password-confirmation"
@@ -80,7 +82,7 @@ function RegisterPage() {
                     />
                 </div>
                 <button type="submit" disabled={loading}>
-                    {loading ? 'Registering...' : 'Register'}
+                    {loading ? t('registering') : t('register')}
                 </button>
             </form>
         </div>
