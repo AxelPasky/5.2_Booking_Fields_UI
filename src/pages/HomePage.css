@@ -42,13 +42,21 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
 }
 
+/* CORREZIONE: Aggiunta la regola base per .landing-actions */
+.landing-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .landing-actions .btn {
   padding: 0.8rem 2rem;
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
-  margin: 0 0.5rem;
+  /* Rimosso il margin da qui per gestirlo con gap */
   border: 2px solid transparent;
 }
 
@@ -68,22 +76,7 @@
   color: #fff;
 }
 
-.home-actions a:last-child {
-    background-color: #3498db;
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    margin: 0 0.5rem;
-    border: 2px solid transparent;
-}
-
-.home-actions a:last-child:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-}
+/* RIMOSSO: Blocco .home-actions non necessario */
 
 /* CORREZIONE: Usa i selettori corretti (landing-*) e migliora lo stile mobile */
 @media (max-width: 768px) {
