@@ -6,10 +6,11 @@ import App from './App.jsx';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import FieldsPage from './pages/FieldsPage'; // AGGIUNTA: Importa FieldsPage
 import MyBookingsPage from './pages/MyBookingsPage';
-import FieldsPage from './pages/FieldsPage';
-import CreateBookingPage from './pages/CreateBookingPage'; // <-- MODIFICATO
+import EditBookingPage from './pages/EditBookingPage'; // Importa la nuova pagina
 import ProtectedRoute from './components/ProtectedRoute';
+import CreateBookingPage from './pages/CreateBookingPage.jsx';
 
 import './index.css';
 import './i18n'; // Importa la configurazione di i18next
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <MyBookingsPage />
+          </ProtectedRoute>
+        ) 
+      },
+      { 
+        path: "bookings/edit/:bookingId", // Aggiungi la nuova rotta
+        element: (
+          <ProtectedRoute>
+            <EditBookingPage />
           </ProtectedRoute>
         ) 
       },

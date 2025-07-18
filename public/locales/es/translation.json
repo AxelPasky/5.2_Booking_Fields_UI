@@ -33,6 +33,7 @@
   "confirmBooking": "Confirmar Reserva",
   "loadingFieldInfo": "Cargando información del campo...",
   "fieldNotFound": "Campo no encontrado.",
+  "fieldUnavailable": "Campo no disponible",
   "selectSlotError": "Por favor, selecciona al menos un horario.",
   "bookingCreatedSuccess": "¡Reserva creada con éxito!",
   "loadingBookings": "Cargando tus reservas...",
@@ -43,5 +44,15 @@
   "price": "Precio",
   "status": "Estado",
   "cancel": "Cancelar",
-  "cancelBookingConfirm": "¿Estás seguro de que quieres cancelar esta reserva?"
+  "confirm": "Confirmar",
+  "cancelBookingConfirm": "¿Estás seguro de que quieres cancelar esta reserva?",
+  "edit": "Editar",
+  "editBookingFor": "Editar Reserva para: {{fieldName}}",
+  "updateBooking": "Actualizar Reserva",
+  "bookingUpdateSuccess": "¡Reserva actualizada con éxito!",
+  "bookingCancelledSuccess": "¡Reserva cancelada con éxito!",
+  "cancelBookingError": "No se pudo cancelar la reserva. Por favor, inténtalo de nuevo.",
+  "bookingUpdateFailed": "No se pudo actualizar la reserva. Por favor, comprueba los detalles e inténtalo de nuevo.",
+  "status.confirmed": "Confirmado",
+  "status.cancelled": "Cancelado"
 }

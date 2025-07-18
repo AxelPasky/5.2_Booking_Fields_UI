@@ -1,13 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next'; // Importa
+import { useTranslation } from 'react-i18next';
+import Notification from './Notification';
+import ConfirmModal from './ConfirmModal'; // Importa la modale
 import './Layout.css';
 
 function Layout() {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const { t } = useTranslation(); // Inizializza
+  const { t } = useTranslation();
+
+  const [notification, setNotification] = useState({ message: '', type: '' });
+  // AGGIUNTA: Stato per la modale di conferma
+  const [confirmState, setConfirmState] = useState({ isOpen: false, message: '', onConfirm: () => {} });
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+  };
+
+  const clearNotification = () => {
+    setNotification({ message: '', type: '' });
+  };
+
+  // AGGIUNTA: Funzioni per gestire la modale
+  const showConfirmModal = (message, onConfirm) => {
+    setConfirmState({ isOpen: true, message, onConfirm });
+  };
+
+  const hideConfirmModal = () => {
+    setConfirmState({ isOpen: false, message: '', onConfirm: () => {} });
+  };
+
+  const handleConfirm = () => {
+    confirmState.onConfirm();
+    hideConfirmModal();
+  };
 
   // MODIFICA: Considera anche /login e /register come pagine a schermo intero
   const isFullScreenPage = ['/', '/login', '/register'].includes(location.pathname);
@@ -19,7 +47,7 @@ function Layout() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Mostra l'header solo se NON siamo su una pagina a schermo intero */}
+      {/* L'header rimane invariato */}
       {!isFullScreenPage && (
         <header className="app-header">
           <Link to="/" className="logo">
@@ -39,7 +67,6 @@ function Layout() {
                 </div>
               </>
             ) : (
-              // Questo blocco non verrà mai mostrato qui, ma lo lasciamo per coerenza
               <div className="nav-links">
                 <Link to="/login">{t('login')}</Link>
                 <Link to="/register">{t('register')}</Link>
@@ -49,9 +76,25 @@ function Layout() {
         </header>
       )}
 
+      {/* Il componente Notification viene renderizzato qui */}
+      <Notification 
+        message={notification.message} 
+        type={notification.type}
+        onClear={clearNotification}
+      />
+      
+      {/* AGGIUNTA: Render della modale */}
+      <ConfirmModal 
+        isOpen={confirmState.isOpen}
+        message={confirmState.message}
+        onConfirm={handleConfirm}
+        onCancel={hideConfirmModal}
+      />
+
       {/* Usa la classe 'app-main' per avere padding o 'app-main-full' per la homepage */}
       <main className={location.pathname === '/' ? 'app-main-full' : 'app-main'}>
-        <Outlet />
+        {/* L'Outlet ora riceve il context da Layout */}
+        <Outlet context={{ showNotification, showConfirmModal }} />
       </main>
 
       {/* Mostra il footer solo se NON siamo su una pagina a schermo intero */}

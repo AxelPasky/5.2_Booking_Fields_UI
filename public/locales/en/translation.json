@@ -44,5 +44,15 @@
   "price": "Price",
   "status": "Status",
   "cancel": "Cancel",
-  "cancelBookingConfirm": "Are you sure you want to cancel this booking?"
+  "confirm": "Confirm",
+  "cancelBookingConfirm": "Are you sure you want to cancel this booking?",
+  "edit": "Edit",
+  "editBookingFor": "Edit Booking for: {{fieldName}}",
+  "updateBooking": "Update Booking",
+  "bookingUpdateSuccess": "Booking updated successfully!",
+  "bookingCancelledSuccess": "Booking cancelled successfully!",
+  "cancelBookingError": "Failed to cancel the booking. Please try again.",
+  "bookingUpdateFailed": "Failed to update the booking. Please check the details and try again.",
+  "status.confirmed": "Confirmed",
+  "status.cancelled": "Cancelled"
 }
