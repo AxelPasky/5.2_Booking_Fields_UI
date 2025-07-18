@@ -1,10 +1,12 @@
+import React from 'react';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
 import './App.css';
 
 function App() {
-  // Ora App avvolge il Layout con l'AuthProvider.
-  // Poiché App è renderizzato dal Router, AuthProvider può usare useNavigate.
+  // Rimuoviamo tutta la logica di notifica da qui.
+  // App ora si occupa solo di fornire il contesto di autenticazione
+  // e di renderizzare il Layout principale.
   return (
     <AuthProvider>
       <Layout />

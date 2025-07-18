@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom'; // Aggiungi useOutletContext
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next'; // Importa
 import './MyBookingsPage.css';
 
@@ -12,7 +12,8 @@ function MyBookingsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { token } = useAuth();
-    const { t } = useTranslation(); // Inizializza
+    const { t } = useTranslation();
+    const { showNotification } = useOutletContext(); // Ottieni la funzione di notifica
 
     // La logica per recuperare le prenotazioni rimane INVARIATA
     useEffect(() => {
@@ -61,8 +62,11 @@ function MyBookingsPage() {
                 throw new Error('Failed to cancel booking.');
             }
             setBookings(bookings.filter(b => b.id !== bookingId));
+            // MODIFICA: Aggiungi notifica di successo
+            showNotification(t('bookingCancelledSuccess'), 'success');
         } catch (e) {
-            alert(`Error: ${e.message}`);
+            // MODIFICA: Usa la notifica personalizzata per l'errore
+            showNotification(t('cancelBookingError'), 'error');
         }
     };
 

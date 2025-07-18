@@ -48,5 +48,8 @@
   "edit": "Editar",
   "editBookingFor": "Editar Reserva para: {{fieldName}}",
   "updateBooking": "Actualizar Reserva",
-  "bookingUpdateSuccess": "¡Reserva actualizada con éxito!"
+  "bookingUpdateSuccess": "¡Reserva actualizada con éxito!",
+  "bookingCancelledSuccess": "¡Reserva cancelada con éxito!",
+  "cancelBookingError": "No se pudo cancelar la reserva. Por favor, inténtalo de nuevo.",
+  "bookingUpdateFailed": "No se pudo actualizar la reserva. Por favor, comprueba los detalles e inténtalo de nuevo."
 }

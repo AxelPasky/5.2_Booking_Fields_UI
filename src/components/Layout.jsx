@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react'; // Aggiungi useState
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next'; // Importa
+import { useTranslation } from 'react-i18next';
+import Notification from './Notification'; // Importa il componente Notification
 import './Layout.css';
 
 function Layout() {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const { t } = useTranslation(); // Inizializza
+  const { t } = useTranslation();
+
+  // SPOSTATA QUI: Logica per la gestione delle notifiche
+  const [notification, setNotification] = useState({ message: '', type: '' });
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+  };
+
+  const clearNotification = () => {
+    setNotification({ message: '', type: '' });
+  };
 
   // MODIFICA: Considera anche /login e /register come pagine a schermo intero
   const isFullScreenPage = ['/', '/login', '/register'].includes(location.pathname);
@@ -19,7 +31,7 @@ function Layout() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Mostra l'header solo se NON siamo su una pagina a schermo intero */}
+      {/* L'header rimane invariato */}
       {!isFullScreenPage && (
         <header className="app-header">
           <Link to="/" className="logo">
@@ -39,7 +51,6 @@ function Layout() {
                 </div>
               </>
             ) : (
-              // Questo blocco non verrà mai mostrato qui, ma lo lasciamo per coerenza
               <div className="nav-links">
                 <Link to="/login">{t('login')}</Link>
                 <Link to="/register">{t('register')}</Link>
@@ -49,9 +60,17 @@ function Layout() {
         </header>
       )}
 
+      {/* Il componente Notification viene renderizzato qui */}
+      <Notification 
+        message={notification.message} 
+        type={notification.type}
+        onClear={clearNotification}
+      />
+
       {/* Usa la classe 'app-main' per avere padding o 'app-main-full' per la homepage */}
       <main className={location.pathname === '/' ? 'app-main-full' : 'app-main'}>
-        <Outlet />
+        {/* L'Outlet ora riceve il context da Layout */}
+        <Outlet context={{ showNotification }} />
       </main>
 
       {/* Mostra il footer solo se NON siamo su una pagina a schermo intero */}

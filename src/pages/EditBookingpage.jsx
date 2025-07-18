@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'; // Aggiungi useCallback
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate, useOutletContext } from 'react-router-dom'; // Aggiungi useOutletContext
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import './CreateBookingPage.css'; // Riutilizziamo lo stesso stile
@@ -11,6 +11,7 @@ function EditBookingPage() {
     const { token } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { showNotification } = useOutletContext(); // Ottieni la funzione di notifica
 
     const [booking, setBooking] = useState(null);
     const [field, setField] = useState(null);
@@ -134,13 +135,16 @@ function EditBookingPage() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to update booking.');
+                throw new Error(t('bookingUpdateFailed'));
             }
 
-            alert(t('bookingUpdateSuccess'));
+            // MODIFICA: Usa la notifica personalizzata
+            showNotification(t('bookingUpdateSuccess'), 'success');
             navigate('/bookings');
         } catch (err) {
-            setError(err.message);
+            // MODIFICA: Usa la notifica personalizzata per l'errore
+            showNotification(err.message, 'error');
+            setError(err.message); // Puoi ancora mantenere l'errore locale se serve
         }
     };
 

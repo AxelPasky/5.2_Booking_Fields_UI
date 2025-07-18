@@ -47,5 +47,8 @@
   "edit": "Modifica",
   "editBookingFor": "Modifica Prenotazione per: {{fieldName}}",
   "updateBooking": "Aggiorna Prenotazione",
-  "bookingUpdateSuccess": "Prenotazione aggiornata con successo!"
+  "bookingUpdateSuccess": "Prenotazione aggiornata con successo!",
+  "bookingCancelledSuccess": "Prenotazione annullata con successo!",
+  "cancelBookingError": "Impossibile annullare la prenotazione. Riprova.",
+  "bookingUpdateFailed": "Impossibile aggiornare la prenotazione. Controlla i dati e riprova."
 }
