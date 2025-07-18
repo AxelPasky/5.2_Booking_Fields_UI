@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
-// Torniamo a usare direttamente l'URL pubblico per ora
-const API_URL = 'https://api-booking-fields.up.railway.app/api';
+// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './FieldsList.css';
 
-// Torniamo a usare direttamente l'URL pubblico per ora
-const API_URL = 'https://api-booking-fields.up.railway.app/api';
+// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
+const API_URL = import.meta.env.VITE_API_URL;
 
 function FieldsList() {
   const [fields, setFields] = useState([]);

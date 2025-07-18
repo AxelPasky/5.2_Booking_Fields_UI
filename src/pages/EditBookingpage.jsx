@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import './CreateBookingPage.css'; // Riutilizziamo lo stesso stile
 
-const API_URL = 'https://api-booking-fields.up.railway.app/api';
+// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
+const API_URL = import.meta.env.VITE_API_URL;
 
 function EditBookingPage() {
     const { bookingId } = useParams();
