@@ -31,6 +31,19 @@ button {
   cursor: pointer;
 }
 
+/* AGGIUNTA: Animazione di rimbalzo per il logo */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-7px);
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

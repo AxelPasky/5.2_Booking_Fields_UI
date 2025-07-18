@@ -21,6 +21,12 @@
   width: 100px;
   height: auto;
   margin-bottom: 1rem;
+  cursor: pointer; /* Cambia il cursore per indicare interattività */
+}
+
+/* AGGIUNTA: Applica l'animazione bounce al passaggio del mouse */
+.landing-logo:hover {
+  animation: bounce 1s ease;
 }
 
 .landing-title {

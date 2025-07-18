@@ -50,6 +50,12 @@
 .header-logo {
   height: 40px; /* Dimensione del logo */
   margin-right: 0.75rem;
+  transition: transform 0.3s ease; /* Aggiungiamo una transizione per fluidità */
+}
+
+/* AGGIUNTA: Applica l'animazione bounce al passaggio del mouse */
+.header-logo:hover {
+  animation: bounce 1s ease;
 }
 
 .app-header .logo h1 {
