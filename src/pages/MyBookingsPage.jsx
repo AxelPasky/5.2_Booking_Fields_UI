@@ -13,7 +13,7 @@ function MyBookingsPage() {
     const [error, setError] = useState(null);
     const { token } = useAuth();
     const { t } = useTranslation();
-    const { showNotification } = useOutletContext(); // Ottieni la funzione di notifica
+    const { showNotification, showConfirmModal } = useOutletContext(); // Ottieni entrambe le funzioni
 
     // La logica per recuperare le prenotazioni rimane INVARIATA
     useEffect(() => {
@@ -44,30 +44,33 @@ function MyBookingsPage() {
         fetchBookings();
     }, [token]);
 
-    // La logica per cancellare una prenotazione rimane INVARIATA
     const handleCancelBooking = async (bookingId) => {
-        if (!window.confirm(t('cancelBookingConfirm'))) {
-            return;
-        }
-        try {
-            const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json',
-                },
-            });
+        // La logica di cancellazione effettiva
+        const proceedCancellation = async () => {
+            try {
+                const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json',
+                    },
+                });
 
-            if (!response.ok) {
-                throw new Error('Failed to cancel booking.');
+                if (!response.ok) {
+                    throw new Error('Failed to cancel booking.');
+                }
+                setBookings(bookings.filter(b => b.id !== bookingId));
+                showNotification(t('bookingCancelledSuccess'), 'success');
+            } catch (e) {
+                showNotification(t('cancelBookingError'), 'error');
             }
-            setBookings(bookings.filter(b => b.id !== bookingId));
-            // MODIFICA: Aggiungi notifica di successo
-            showNotification(t('bookingCancelledSuccess'), 'success');
-        } catch (e) {
-            // MODIFICA: Usa la notifica personalizzata per l'errore
-            showNotification(t('cancelBookingError'), 'error');
-        }
+        };
+
+        // MODIFICA: Usa la modale di conferma personalizzata
+        showConfirmModal(
+            t('cancelBookingConfirm'), // Messaggio
+            proceedCancellation      // Funzione da eseguire alla conferma
+        );
     };
 
     // Definiamo le varianti per l'animazione
@@ -108,7 +111,13 @@ function MyBookingsPage() {
                                     <p><strong>{t('date')}:</strong> {new Date(booking.start_time).toLocaleDateString('it-IT')}</p>
                                     <p><strong>{t('time')}:</strong> {new Date(booking.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(booking.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                                     <p><strong>{t('price')}:</strong> €{parseFloat(booking.total_price).toFixed(2)}</p>
-                                    <p><strong>{t('status')}:</strong> <span className={`status-badge status-${booking.status}`}>{booking.status}</span></p>
+                                    <p>
+                                        <strong>{t('status')}:</strong> 
+                                        <span className={`status-badge status-${booking.status.toLowerCase()}`}>
+                                            {/* CORREZIONE: Traduce lo stato ricevuto dall'API */}
+                                            {t(`status.${booking.status.toLowerCase()}`, booking.status)}
+                                        </span>
+                                    </p>
                                 </div>
                                 {booking.status !== 'cancelled' && (
                                     <div className="booking-card-footer">

@@ -44,6 +44,7 @@
   "price": "Precio",
   "status": "Estado",
   "cancel": "Cancelar",
+  "confirm": "Confirmar",
   "cancelBookingConfirm": "¿Estás seguro de que quieres cancelar esta reserva?",
   "edit": "Editar",
   "editBookingFor": "Editar Reserva para: {{fieldName}}",
@@ -51,5 +52,7 @@
   "bookingUpdateSuccess": "¡Reserva actualizada con éxito!",
   "bookingCancelledSuccess": "¡Reserva cancelada con éxito!",
   "cancelBookingError": "No se pudo cancelar la reserva. Por favor, inténtalo de nuevo.",
-  "bookingUpdateFailed": "No se pudo actualizar la reserva. Por favor, comprueba los detalles e inténtalo de nuevo."
+  "bookingUpdateFailed": "No se pudo actualizar la reserva. Por favor, comprueba los detalles e inténtalo de nuevo.",
+  "status.confirmed": "Confirmado",
+  "status.cancelled": "Cancelado"
 }

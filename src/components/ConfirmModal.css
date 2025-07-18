@@ -1,0 +1,79 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Assicura che sia sopra tutto il resto */
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background-color: rgba(44, 62, 80, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal-button {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-button.cancel {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.modal-button.cancel:hover {
+  background-color: #fff;
+  color: #2c3e50;
+}
+
+.modal-button.confirm {
+  background-color: #e74c3c; /* Rosso per azione distruttiva */
+  color: #fff;
+  border: 1px solid #e74c3c;
+}
+
+.modal-button.confirm:hover {
+  background-color: #c0392b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
