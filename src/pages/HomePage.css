@@ -94,7 +94,7 @@
 
     .landing-actions {
         flex-direction: column; /* Impila i pulsanti in verticale */
-        align-items: center; /* Centra il blocco dei pulsanti */
+        align-items: stretch; /* CORREZIONE: Allunga i pulsanti per occupare la larghezza */
         width: 100%;
     }
 
