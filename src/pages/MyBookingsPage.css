@@ -22,6 +22,21 @@
     gap: 1.5rem; /* Spazio tra le card */
 }
 
+/* AGGIUNTA: Media Query per schermi piccoli */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem; /* Riduciamo la dimensione del titolo */
+    }
+
+    .bookings-grid {
+        grid-template-columns: 1fr; /* Una sola colonna */
+    }
+
+    .my-bookings-page {
+        padding: 1rem;
+    }
+}
+
 /* Stile per la card di prenotazione */
 .booking-card {
     background-color: rgba(0, 0, 0, 0.4);

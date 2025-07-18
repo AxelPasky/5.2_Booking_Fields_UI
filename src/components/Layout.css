@@ -105,18 +105,21 @@
   color: white;
 }
 
-.app-header nav a {
-  text-decoration: none;
-  color: #34495e;
-  font-weight: 500;
-  padding: 0.5rem 0;
-  border-bottom: 2px solid transparent;
-  transition: color 0.3s, border-color 0.3s;
-}
+/* AGGIUNTA: Media Query per la navigazione su mobile */
+@media (max-width: 768px) {
+    .app-header {
+        padding: 0.5rem 1rem; /* Meno padding orizzontale */
+        flex-direction: column; /* Impila logo e navigazione */
+        gap: 0.5rem;
+    }
 
-.app-header nav a:hover {
-  color: #4CAF50;
-  border-bottom-color: #4CAF50;
+    .app-header .logo h1 {
+        font-size: 1.2rem; /* Riduci dimensione titolo */
+    }
+
+    .nav-links {
+        gap: 1rem; /* Meno spazio tra i link */
+    }
 }
 
 .app-main {

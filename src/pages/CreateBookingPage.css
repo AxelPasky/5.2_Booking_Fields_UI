@@ -132,3 +132,14 @@
     background-color: #cccccc; /* Grigio quando disabilitato */
     cursor: not-allowed;
 }
+
+/* AGGIUNTA: Media Query per i form */
+@media (max-width: 768px) {
+    .booking-page-container {
+        padding: 1rem; /* Meno padding su mobile */
+    }
+
+    .booking-form-card {
+        padding: 1.5rem; /* Meno padding interno della card */
+    }
+}
