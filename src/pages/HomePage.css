@@ -85,26 +85,26 @@
     transform: translateY(-2px);
 }
 
-/* AGGIUNTA: Media Query per i pulsanti della homepage */
+/* CORREZIONE: Usa i selettori corretti (landing-*) e migliora lo stile mobile */
 @media (max-width: 768px) {
-    .home-content {
-        padding: 1rem; /* Riduci il padding su mobile */
+    .landing-content {
+        padding: 1.5rem; /* Riduci il padding su mobile */
+        width: 90%;
     }
 
-    .home-actions {
+    .landing-actions {
         flex-direction: column; /* Impila i pulsanti in verticale */
-        align-items: stretch; /* Fa in modo che i pulsanti occupino tutta la larghezza */
-        width: 80%; /* Limita la larghezza del contenitore dei pulsanti */
-        max-width: 300px; /* Imposta una larghezza massima */
+        align-items: center; /* Centra il blocco dei pulsanti */
+        width: 100%;
     }
 
-    .home-actions .btn {
-        width: 100%; /* I pulsanti occupano tutta la larghezza del loro contenitore */
+    .landing-actions .btn {
+        width: 100%; /* I pulsanti occupano tutta la larghezza */
         margin: 0.5rem 0; /* Aggiunge spazio verticale tra i pulsanti */
         font-size: 1rem;
+        text-align: center;
     }
 
-    .home-actions .separator {
-        display: none; /* Nasconde il separatore "Ora" su mobile per un look più pulito */
-    }
-}
+    .landing-actions .separator {
+        display: none; /* Nasconde il separatore "Ora" su mobile */
+    }   }
