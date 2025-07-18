@@ -6,11 +6,11 @@ function Notification({ message, type, onClear }) {
     return null;
   }
 
-  // Imposta un timer per chiudere automaticamente la notifica
+ 
   React.useEffect(() => {
     const timer = setTimeout(() => {
       onClear();
-    }, 4000); // La notifica scompare dopo 4 secondi
+    }, 4000); 
 
     return () => clearTimeout(timer);
   }, [message, onClear]);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // Importa
+import { useTranslation } from 'react-i18next';
 import './AuthForm.css';
 
 function LoginPage() {
@@ -11,9 +11,8 @@ function LoginPage() {
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const location = useLocation();
-    const { t } = useTranslation(); // Inizializza
+    const { t } = useTranslation(); 
 
-    // Controlla se c'è un messaggio di successo passato dallo stato della rotta
     const successMessage = location.state?.message;
 
     const handleSubmit = async (e) => {
@@ -33,7 +32,6 @@ function LoginPage() {
         <div className="auth-form-container">
             <form onSubmit={handleSubmit} className="auth-form">
                 <h2>{t('login')}</h2>
-                {/* Mostra il messaggio di successo se esiste */}
                 {successMessage && <p className="success-message">{t(successMessage)}</p>}
                 {error && <p className="error-message">{error}</p>}
                 <div className="form-group">

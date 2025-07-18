@@ -4,27 +4,17 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './FieldsList.css';
 
-// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function FieldsList() {
   const [fields, setFields] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { token } = useAuth(); // Usa il token dal context!
+  const { token } = useAuth(); 
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Questo controllo non è più necessario!
-    // ProtectedRoute si assicura che questo componente venga renderizzato
-    // solo se l'utente è loggato e il token esiste.
-    /* 
-    if (!token) {
-      setError('You must be logged in to view the fields.');
-      setLoading(false);
-      return;
-    }
-    */
 
     const fetchFields = async () => {
       try {
@@ -47,12 +37,11 @@ function FieldsList() {
       }
     };
 
-    // Eseguiamo il fetch solo se il token è presente.
-    // Anche se ridondante grazie a ProtectedRoute, è una buona pratica.
+  
     if (token) {
         fetchFields();
     }
-  }, [token]); // Riesegui l'effetto se il token cambia
+  }, [token]);
 
   if (loading) {
     return <div className="loading-message">{t('loadingFields')}</div>;
@@ -79,7 +68,6 @@ function FieldsList() {
                 <h3>{field.name}</h3>
                 <div className="field-details">
                   <span>{field.type}</span>
-                  {/* MODIFICA: Usa 'price_per_hour' */}
                   <span className="price">€{parseFloat(field.price_per_hour).toFixed(2)} {t('perHour')}</span>
                 </div>
                 <p>{field.description}</p>

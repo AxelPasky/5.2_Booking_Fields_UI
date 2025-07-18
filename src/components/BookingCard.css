@@ -17,7 +17,7 @@
 
 .booking-card-header h3 {
     margin: 0;
-    color: #4CAF50; /* Verde per il titolo */
+    color: #4CAF50; 
     font-size: 1.4rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 0.75rem;
@@ -58,7 +58,7 @@
 }
 
 .cancel-button {
-    background-color: #f44336; /* Rosso per il pulsante annulla */
+    background-color: #f44336; 
     color: white;
     border: none;
     padding: 0.7rem 1.2rem;

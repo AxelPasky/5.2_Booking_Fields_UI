@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  position: relative; /* Necessario per l'overlay */
+  position: relative; 
   z-index: 1;
 }
 
-/* AGGIUNTA: Stili per il video di sfondo */
+
 .background-video {
   position: fixed;
   right: 0;
@@ -15,11 +15,10 @@
   min-height: 100%;
   width: auto;
   height: auto;
-  z-index: -2; /* Dietro a tutto */
-  object-fit: cover; /* Copre l'intera area senza distorcere */
+  z-index: -2; 
+  object-fit: cover; 
 }
 
-/* AGGIUNTA: Overlay per migliorare la leggibilità */
 .app-container::before {
   content: '';
   position: fixed;
@@ -27,16 +26,16 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Overlay nero semi-trasparente */
-  z-index: -1; /* Tra il container e il video */
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: -1; 
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 2rem; /* Ridotto padding verticale */
-  background-color: rgba(255, 255, 255, 0.9); /* Sfondo header semi-trasparente */
+  padding: 0.5rem 2rem; 
+  background-color: rgba(255, 255, 255, 0.9); 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-bottom: 3px solid #4CAF50;
 }
@@ -48,12 +47,11 @@
 }
 
 .header-logo {
-  height: 40px; /* Dimensione del logo */
+  height: 40px;
   margin-right: 0.75rem;
-  transition: transform 0.3s ease; /* Aggiungiamo una transizione per fluidità */
+  transition: transform 0.3s ease; 
 }
 
-/* AGGIUNTA: Applica l'animazione bounce al passaggio del mouse */
 .header-logo:hover {
   animation: bounce 1s ease;
 }
@@ -74,11 +72,11 @@
 .nav-links {
   display: flex;
   gap: 1.5rem;
-  margin: 0 auto; /* Centra i link di navigazione */
+  margin: 0 auto; 
 }
 
 .nav-links a {
-  color: #34495e; /* MODIFICA: Cambiato colore in bianco */
+  color: #34495e; 
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -101,7 +99,7 @@
 .welcome-user {
   color: #34495e;
   font-weight: 500;
-  white-space: nowrap; /* Evita che il testo vada a capo */
+  white-space: nowrap; 
 }
 
 .logout-button {
@@ -120,20 +118,20 @@
   color: white;
 }
 
-/* AGGIUNTA: Media Query per la navigazione su mobile */
+
 @media (max-width: 768px) {
     .app-header {
-        padding: 0.5rem 1rem; /* Meno padding orizzontale */
-        flex-direction: column; /* Impila logo e navigazione */
+        padding: 0.5rem 1rem; 
+        flex-direction: column; 
         gap: 0.5rem;
     }
 
     .app-header .logo h1 {
-        font-size: 1.2rem; /* Riduci dimensione titolo */
+        font-size: 1.2rem; 
     }
 
     .nav-links {
-        gap: 1rem; /* Meno spazio tra i link */
+        gap: 1rem; 
     }
 }
 
@@ -142,16 +140,15 @@
   padding: 2rem;
 }
 
-/* AGGIUNTA: Stile per il main a tutta pagina (usato dalla homepage) */
 .app-main-full {
   flex-grow: 1;
-  padding: 0; /* Rimuove il padding per la landing page */
+  padding: 0; 
 }
 
 .app-footer {
   text-align: center;
   padding: 1rem;
-  background-color: rgba(44, 62, 80, 0.9); /* Sfondo footer semi-trasparente */
+  background-color: rgba(44, 62, 80, 0.9);
   color: #ecf0f1;
   font-size: 0.9rem;
 }

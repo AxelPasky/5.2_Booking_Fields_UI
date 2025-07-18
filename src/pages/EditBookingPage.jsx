@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate, useOutletContext } from 'react-router-dom'; // Aggiungi useOutletContext
+import { useParams, useNavigate, useOutletContext } from 'react-router-dom'; 
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import './CreateBookingPage.css'; // Riutilizziamo lo stesso stile
+import './CreateBookingPage.css';
 
-// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function EditBookingPage() {
@@ -12,7 +12,7 @@ function EditBookingPage() {
     const { token } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { showNotification } = useOutletContext(); // Ottieni la funzione di notifica
+    const { showNotification } = useOutletContext();
 
     const [booking, setBooking] = useState(null);
     const [field, setField] = useState(null);
@@ -24,14 +24,11 @@ function EditBookingPage() {
     const [loadingSlots, setLoadingSlots] = useState(false);
     const [error, setError] = useState('');
 
-    // CORREZIONE: Dividiamo il fetch in due passaggi.
-    // 1. Prima otteniamo i dati della prenotazione (che include field_id).
-    // 2. Poi usiamo field_id per ottenere i dettagli del campo.
+  
     useEffect(() => {
         const fetchBookingAndFieldDetails = async () => {
             setLoading(true);
             try {
-                // Step 1: Fetch della prenotazione
                 const bookingResponse = await fetch(`${API_URL}/bookings/${bookingId}`, {
                     headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' },
                 });
@@ -43,7 +40,6 @@ function EditBookingPage() {
                 const bookingDate = new Date(currentBooking.start_time).toISOString().split('T')[0];
                 setSelectedDate(bookingDate);
 
-                // Step 2: Fetch dei dettagli del campo usando il field_id dalla prenotazione
                 if (currentBooking.field_id) {
                     const fieldResponse = await fetch(`${API_URL}/fields/${currentBooking.field_id}`, {
                          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' },
@@ -67,7 +63,6 @@ function EditBookingPage() {
         }
     }, [bookingId, token]);
 
-    // 2. Fetch disponibilità quando la data o il campo cambiano
     useEffect(() => {
         if (!selectedDate || !field) return;
 
@@ -90,7 +85,6 @@ function EditBookingPage() {
         fetchAvailability();
     }, [selectedDate, field, token]);
     
-    // 3. Calcola il prezzo
     useEffect(() => {
         if (selectedSlots.length > 0 && field?.price_per_hour) {
             const pricePerSlot = parseFloat(field.price_per_hour) / 2;
@@ -100,12 +94,10 @@ function EditBookingPage() {
         }
     }, [selectedSlots, field]);
 
-    // 4. Gestione selezione/deselezione slot
     const handleSlotSelection = (slotString) => {
         setSelectedSlots(prev => prev.includes(slotString) ? prev.filter(s => s !== slotString) : [...prev, slotString].sort());
     };
 
-    // 5. Submit del form di modifica
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (selectedSlots.length === 0) {
@@ -139,24 +131,21 @@ function EditBookingPage() {
                 throw new Error(t('bookingUpdateFailed'));
             }
 
-            // MODIFICA: Usa la notifica personalizzata
             showNotification(t('bookingUpdateSuccess'), 'success');
             navigate('/bookings');
         } catch (err) {
-            // MODIFICA: Usa la notifica personalizzata per l'errore
             showNotification(err.message, 'error');
-            setError(err.message); // Puoi ancora mantenere l'errore locale se serve
+            setError(err.message); 
         }
     };
 
-    // CORREZIONE: Semplifichiamo la logica di rendering.
-    // Mostra il caricamento finché loading è true.
+ 
     if (loading) return <div className="loading-message">{t('loadingBookings')}</div>;
     
-    // Se c'è un errore (e non stiamo più caricando), mostralo.
+
     if (error) return <div className="error-message">{t('error', { message: error })}</div>;
     
-    // Se non stiamo caricando, non ci sono errori, ma il campo non è stato trovato (es. API ha risposto con null), mostralo.
+    
     if (!field) return <div className="error-message">{t('fieldNotFound')}</div>;
 
     return (

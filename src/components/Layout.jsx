@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Notification from './Notification';
-import ConfirmModal from './ConfirmModal'; // Importa la modale
+import ConfirmModal from './ConfirmModal'; 
 import './Layout.css';
 
 function Layout() {
@@ -12,7 +12,6 @@ function Layout() {
   const { t } = useTranslation();
 
   const [notification, setNotification] = useState({ message: '', type: '' });
-  // AGGIUNTA: Stato per la modale di conferma
   const [confirmState, setConfirmState] = useState({ isOpen: false, message: '', onConfirm: () => {} });
 
   const showNotification = (message, type = 'success') => {
@@ -23,7 +22,6 @@ function Layout() {
     setNotification({ message: '', type: '' });
   };
 
-  // AGGIUNTA: Funzioni per gestire la modale
   const showConfirmModal = (message, onConfirm) => {
     setConfirmState({ isOpen: true, message, onConfirm });
   };
@@ -37,7 +35,6 @@ function Layout() {
     hideConfirmModal();
   };
 
-  // MODIFICA: Considera anche /login e /register come pagine a schermo intero
   const isFullScreenPage = ['/', '/login', '/register'].includes(location.pathname);
 
   return (
@@ -47,7 +44,6 @@ function Layout() {
         Your browser does not support the video tag.
       </video>
 
-      {/* L'header rimane invariato */}
       {!isFullScreenPage && (
         <header className="app-header">
           <Link to="/" className="logo">
@@ -76,14 +72,12 @@ function Layout() {
         </header>
       )}
 
-      {/* Il componente Notification viene renderizzato qui */}
       <Notification 
         message={notification.message} 
         type={notification.type}
         onClear={clearNotification}
       />
       
-      {/* AGGIUNTA: Render della modale */}
       <ConfirmModal 
         isOpen={confirmState.isOpen}
         message={confirmState.message}
@@ -91,13 +85,11 @@ function Layout() {
         onCancel={hideConfirmModal}
       />
 
-      {/* Usa la classe 'app-main' per avere padding o 'app-main-full' per la homepage */}
+  
       <main className={location.pathname === '/' ? 'app-main-full' : 'app-main'}>
-        {/* L'Outlet ora riceve il context da Layout */}
         <Outlet context={{ showNotification, showConfirmModal }} />
       </main>
-
-      {/* Mostra il footer solo se NON siamo su una pagina a schermo intero */}
+      
       {!isFullScreenPage && (
         <footer className="app-footer">
           <p>{t('copyright')}</p>

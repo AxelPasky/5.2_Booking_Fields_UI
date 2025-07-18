@@ -30,9 +30,9 @@
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #fff; /* Testo bianco puro per massima visibilità */
-    font-weight: 700; /* MODIFICA: Aumentato il grassetto per maggiore leggibilità */
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* MODIFICA: Ombra più marcata per staccare il testo dallo sfondo */
+    color: #fff; 
+    font-weight: 700; 
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .form-group input {
@@ -41,12 +41,11 @@
     border: 1px solid #bdc3c7;
     border-radius: 4px;
     font-size: 1rem;
-    box-sizing: border-box; /* Assicura che il padding non alteri la larghezza */
-    /* AGGIUNTA: Stili per input su sfondo scuro */
+    box-sizing: border-box; 
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
     border-color: rgba(255, 255, 255, 0.3);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* AGGIUNTA: Ombra leggera anche nell'input */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
 }
 
 .form-group input:focus {
@@ -84,7 +83,7 @@
     border-radius: 4px;
     margin-bottom: 1rem;
     text-align: center;
-    white-space: pre-wrap; /* Permette di visualizzare i messaggi di errore su più righe */
+    white-space: pre-wrap; 
 }
 
 .success-message {

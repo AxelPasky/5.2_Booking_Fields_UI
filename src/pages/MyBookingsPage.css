@@ -1,6 +1,6 @@
 .my-bookings-page {
     padding: 2rem;
-    max-width: 1200px; /* Aumentiamo la larghezza massima per la griglia */
+    max-width: 1200px; 
     margin: 0 auto;
     min-height: calc(100vh - 80px);
 }
@@ -13,23 +13,22 @@
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-/* Utilizziamo una griglia per le card */
+
 .bookings-grid {
     list-style: none;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Crea colonne responsive */
-    gap: 1.5rem; /* Spazio tra le card */
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+    gap: 1.5rem; 
 }
 
-/* AGGIUNTA: Media Query per schermi piccoli */
 @media (max-width: 768px) {
     .page-title {
-        font-size: 2rem; /* Riduciamo la dimensione del titolo */
+        font-size: 2rem; 
     }
 
     .bookings-grid {
-        grid-template-columns: 1fr; /* Una sola colonna */
+        grid-template-columns: 1fr; 
     }
 
     .my-bookings-page {
@@ -37,7 +36,7 @@
     }
 }
 
-/* Stile per la card di prenotazione */
+
 .booking-card {
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(5px);
@@ -66,7 +65,7 @@
 }
 
 .booking-card-body {
-    flex-grow: 1; /* Fa in modo che il corpo occupi lo spazio disponibile */
+    flex-grow: 1; 
 }
 
 .booking-card-body p {
@@ -100,15 +99,14 @@
 
 .booking-card-footer {
     margin-top: 1.5rem;
-    display: flex; /* Allinea i pulsanti */
-    justify-content: flex-end; /* Allinea a destra */
-    gap: 0.75rem; /* Spazio tra i pulsanti */
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 0.75rem; 
 }
 
 .edit-button {
-    /* MODIFICA: Stile più integrato con il tema */
     background-color: transparent;
-    color: #2196F3; /* Blu */
+    color: #2196F3; 
     border: 1px solid #2196F3;
     padding: 0.6rem 1rem;
     border-radius: 5px;
@@ -122,13 +120,12 @@
 
 .edit-button:hover {
     background-color: #2196F3;
-    color: #fff; /* Testo bianco in hover */
+    color: #fff; 
 }
 
 .cancel-button {
-    /* MODIFICA: Stile più integrato con il tema */
     background-color: transparent;
-    color: #f44336; /* Rosso */
+    color: #f44336;
     border: 1px solid #f44336;
     padding: 0.6rem 1rem;
     border-radius: 5px;
@@ -139,10 +136,9 @@
 
 .cancel-button:hover {
     background-color: #f44336;
-    color: #fff; /* Testo bianco in hover */
+    color: #fff; 
 }
 
-/* Messaggio di nessuna prenotazione */
 .no-bookings-message {
     text-align: center;
     font-size: 1.2rem;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next'; // Importa
-import './AuthForm.css'; // Riutilizziamo lo stesso stile del login
+import { useTranslation } from 'react-i18next'; 
+import './AuthForm.css'; 
 
 function RegisterPage() {
     const [name, setName] = useState('');
@@ -11,7 +11,7 @@ function RegisterPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
-    const { t } = useTranslation(); // Inizializza
+    const { t } = useTranslation(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +28,6 @@ function RegisterPage() {
                 password,
                 password_confirmation: passwordConfirmation
             });
-            // La navigazione avviene all'interno della funzione register del context
         } catch (err) {
             setError(err.message);
         } finally {

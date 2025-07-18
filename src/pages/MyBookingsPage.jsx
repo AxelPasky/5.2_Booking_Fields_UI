@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useOutletContext } from 'react-router-dom'; // Aggiungi useOutletContext
+import { Link, useOutletContext } from 'react-router-dom'; 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next'; // Importa
+import { useTranslation } from 'react-i18next'; 
 import './MyBookingsPage.css';
 
-// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function MyBookingsPage() {
@@ -14,9 +14,9 @@ function MyBookingsPage() {
     const [error, setError] = useState(null);
     const { token } = useAuth();
     const { t } = useTranslation();
-    const { showNotification, showConfirmModal } = useOutletContext(); // Ottieni entrambe le funzioni
+    const { showNotification, showConfirmModal } = useOutletContext();
 
-    // La logica per recuperare le prenotazioni rimane INVARIATA
+    
     useEffect(() => {
         const fetchBookings = async () => {
             if (!token) {
@@ -46,7 +46,6 @@ function MyBookingsPage() {
     }, [token]);
 
     const handleCancelBooking = async (bookingId) => {
-        // La logica di cancellazione effettiva
         const proceedCancellation = async () => {
             try {
                 const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
@@ -67,14 +66,13 @@ function MyBookingsPage() {
             }
         };
 
-        // MODIFICA: Usa la modale di conferma personalizzata
         showConfirmModal(
-            t('cancelBookingConfirm'), // Messaggio
-            proceedCancellation      // Funzione da eseguire alla conferma
+            t('cancelBookingConfirm'), 
+            proceedCancellation     
         );
     };
 
-    // Definiamo le varianti per l'animazione
+    
     const cardVariants = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
@@ -115,7 +113,6 @@ function MyBookingsPage() {
                                     <p>
                                         <strong>{t('status')}:</strong> 
                                         <span className={`status-badge status-${booking.status.toLowerCase()}`}>
-                                            {/* CORREZIONE: Traduce lo stato ricevuto dall'API */}
                                             {t(`status.${booking.status.toLowerCase()}`, booking.status)}
                                         </span>
                                     </p>

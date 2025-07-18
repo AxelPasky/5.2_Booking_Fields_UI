@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
-// MODIFICA: Usa la variabile d'ambiente per l'URL dell'API
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const AuthProvider = ({ children }) => {
@@ -70,10 +69,8 @@ export const AuthProvider = ({ children }) => {
             throw new Error(errorData.message || 'Failed to register');
         }
 
-        // NON salviamo più il token e NON aggiorniamo lo stato.
-        // Reindirizziamo semplicemente alla pagina di login con un messaggio di stato.
         navigate('/login', {
-            state: { message: 'registrationSuccess' } // Usa la chiave di traduzione
+            state: { message: 'registrationSuccess' } 
         });
     };
 

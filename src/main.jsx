@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'; // Importa Suspense
+import React, { Suspense } from 'react'; 
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -6,20 +6,20 @@ import App from './App.jsx';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import FieldsPage from './pages/FieldsPage'; // AGGIUNTA: Importa FieldsPage
+import FieldsPage from './pages/FieldsPage';
 import MyBookingsPage from './pages/MyBookingsPage';
-import EditBookingPage from './pages/EditBookingPage'; // Importa la nuova pagina
+import EditBookingPage from './pages/EditBookingPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import CreateBookingPage from './pages/CreateBookingPage.jsx';
 
 import './index.css';
-import './i18n'; // Importa la configurazione di i18next
+import './i18n';
 
-// Definiamo il router qui
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // App diventa il punto di ingresso per il layout e i context
+    element: <App />,
     children: [
       { index: true, element: <HomePage /> },
       { 
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         path: "book/:fieldId",
         element: (
           <ProtectedRoute>
-            <CreateBookingPage /> {/* <-- MODIFICATO */}
+            <CreateBookingPage /> 
           </ProtectedRoute>
         ) 
       },
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         ) 
       },
       { 
-        path: "bookings/edit/:bookingId", // Aggiungi la nuova rotta
+        path: "bookings/edit/:bookingId", 
         element: (
           <ProtectedRoute>
             <EditBookingPage />
@@ -62,7 +62,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* Avvolgi il RouterProvider con Suspense per gestire il caricamento delle traduzioni */}
     <Suspense fallback="Loading...">
       <RouterProvider router={router} />
     </Suspense>

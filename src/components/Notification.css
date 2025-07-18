@@ -1,13 +1,13 @@
 .notification-container {
     position: fixed;
-    top: 80px; /* Sotto la navbar */
+    top: 80px; 
     left: 50%;
     transform: translateX(-50%);
     padding: 1rem 2rem;
     border-radius: 8px;
     color: #fff;
     z-index: 1000;
-    background-color: rgba(44, 62, 80, 0.85); /* Sfondo scuro semi-trasparente */
+    background-color: rgba(44, 62, 80, 0.85); 
     backdrop-filter: blur(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -17,11 +17,11 @@
 }
 
 .notification-container.success {
-    background-color: rgba(39, 174, 96, 0.85); /* Verde per successo */
+    background-color: rgba(39, 174, 96, 0.85); 
 }
 
 .notification-container.error {
-    background-color: rgba(192, 57, 43, 0.85); /* Rosso per errore */
+    background-color: rgba(192, 57, 43, 0.85); 
 }
 
 .notification-container p {

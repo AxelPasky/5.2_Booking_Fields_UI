@@ -3,14 +3,12 @@ import { motion } from 'framer-motion';
 import './BookingCard.css';
 
 const BookingCard = ({ booking, onCancel }) => {
-    // Formatta la data per una migliore leggibilità
     const formattedDate = new Date(booking.date).toLocaleDateString('it-IT', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
     });
 
-    // Definiamo l'animazione per la card
     const cardVariants = {
         hidden: { opacity: 0, y: 50 },
         visible: { opacity: 1, y: 0 }

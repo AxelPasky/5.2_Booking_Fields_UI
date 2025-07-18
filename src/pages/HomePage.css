@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 4rem); /* Altezza viewport meno padding */
+  min-height: calc(100vh - 4rem);
   text-align: center;
   color: #fff;
   padding: 2rem;
@@ -11,20 +11,19 @@
 
 .landing-content {
   max-width: 600px;
-  background-color: rgba(0, 0, 0, 0.4); /* Sfondo scuro per leggibilità */
+  background-color: rgba(0, 0, 0, 0.4); 
   padding: 2.5rem;
   border-radius: 15px;
-  backdrop-filter: blur(5px); /* Effetto vetro smerigliato */
+  backdrop-filter: blur(5px); 
 }
 
 .landing-logo {
   width: 100px;
   height: auto;
   margin-bottom: 1rem;
-  cursor: pointer; /* Cambia il cursore per indicare interattività */
+  cursor: pointer; 
 }
 
-/* AGGIUNTA: Applica l'animazione bounce al passaggio del mouse */
 .landing-logo:hover {
   animation: bounce 1s ease;
 }
@@ -42,7 +41,6 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* CORREZIONE: Aggiunta la regola base per .landing-actions */
 .landing-actions {
   display: flex;
   justify-content: center;
@@ -56,7 +54,6 @@
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
-  /* Rimosso il margin da qui per gestirlo con gap */
   border: 2px solid transparent;
 }
 
@@ -76,30 +73,28 @@
   color: #fff;
 }
 
-/* RIMOSSO: Blocco .home-actions non necessario */
 
-/* CORREZIONE: Usa i selettori corretti (landing-*) e migliora lo stile mobile */
 @media (max-width: 768px) {
     .landing-content {
-        padding: 1.5rem; /* Riduci il padding su mobile */
+        padding: 1.5rem; 
         width: 90%;
     }
 
     .landing-actions {
-        flex-direction: column; /* Impila i pulsanti in verticale */
-        align-items: center; /* MODIFICA CHIAVE: Centra i pulsanti orizzontalmente */
+        flex-direction: column; 
+        align-items: center;
         width: 100%;
     }
 
     .landing-actions .btn {
-        width: 90%; /* MODIFICA CHIAVE: Imposta una larghezza consistente ma non totale */
-        max-width: 320px; /* MODIFICA CHIAVE: Limita la larghezza massima per un aspetto migliore */
-        margin: 0.5rem 0; /* Aggiunge spazio verticale tra i pulsanti */
+        width: 90%; 
+        max-width: 320px; 
+        margin: 0.5rem 0; 
         font-size: 1rem;
         text-align: center;
     }
 
     .landing-actions .separator {
-        display: none; /* Nasconde il separatore "Ora" su mobile */
+        display: none; 
     }
 }
