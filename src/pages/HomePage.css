@@ -87,12 +87,13 @@
 
     .landing-actions {
         flex-direction: column; /* Impila i pulsanti in verticale */
-        align-items: stretch; /* CORREZIONE: Allunga i pulsanti per occupare la larghezza */
+        align-items: center; /* MODIFICA CHIAVE: Centra i pulsanti orizzontalmente */
         width: 100%;
     }
 
     .landing-actions .btn {
-        width: 100%; /* I pulsanti occupano tutta la larghezza */
+        width: 90%; /* MODIFICA CHIAVE: Imposta una larghezza consistente ma non totale */
+        max-width: 320px; /* MODIFICA CHIAVE: Limita la larghezza massima per un aspetto migliore */
         margin: 0.5rem 0; /* Aggiunge spazio verticale tra i pulsanti */
         font-size: 1rem;
         text-align: center;
@@ -100,4 +101,5 @@
 
     .landing-actions .separator {
         display: none; /* Nasconde il separatore "Ora" su mobile */
-    }   }
+    }
+}
