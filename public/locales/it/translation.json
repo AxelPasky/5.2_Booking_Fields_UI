@@ -43,5 +43,9 @@
   "price": "Prezzo",
   "status": "Stato",
   "cancel": "Annulla",
-  "cancelBookingConfirm": "Sei sicuro di voler annullare questa prenotazione?"
+  "cancelBookingConfirm": "Sei sicuro di voler annullare questa prenotazione?",
+  "edit": "Modifica",
+  "editBookingFor": "Modifica Prenotazione per: {{fieldName}}",
+  "updateBooking": "Aggiorna Prenotazione",
+  "bookingUpdateSuccess": "Prenotazione aggiornata con successo!"
 }

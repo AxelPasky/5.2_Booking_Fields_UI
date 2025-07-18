@@ -44,5 +44,9 @@
   "price": "Price",
   "status": "Status",
   "cancel": "Cancel",
-  "cancelBookingConfirm": "Are you sure you want to cancel this booking?"
+  "cancelBookingConfirm": "Are you sure you want to cancel this booking?",
+  "edit": "Edit",
+  "editBookingFor": "Edit Booking for: {{fieldName}}",
+  "updateBooking": "Update Booking",
+  "bookingUpdateSuccess": "Booking updated successfully!"
 }

@@ -85,7 +85,27 @@
 
 .booking-card-footer {
     margin-top: 1.5rem;
-    text-align: right;
+    display: flex; /* Allinea i pulsanti */
+    justify-content: flex-end; /* Allinea a destra */
+    gap: 0.75rem; /* Spazio tra i pulsanti */
+}
+
+.edit-button {
+    background-color: #2196F3; /* Blu per la modifica */
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Rimuovi sottolineatura dal link */
+    display: inline-flex; /* Per allineamento verticale */
+    align-items: center;
+}
+
+.edit-button:hover {
+    background-color: #1976D2;
 }
 
 .cancel-button {

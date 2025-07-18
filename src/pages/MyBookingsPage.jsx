@@ -108,6 +108,9 @@ function MyBookingsPage() {
                                 </div>
                                 {booking.status !== 'cancelled' && (
                                     <div className="booking-card-footer">
+                                        <Link to={`/bookings/edit/${booking.id}`} className="edit-button">
+                                            {t('edit')}
+                                        </Link>
                                         <button
                                             className="cancel-button"
                                             onClick={() => handleCancelBooking(booking.id)}
