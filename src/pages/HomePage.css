@@ -64,12 +64,47 @@
 
 .btn.btn-secondary {
   background-color: transparent;
-  color: white;
-  border-color: #fff;
+  border: 1px solid #fff;
+  color: #fff;
 }
 
-.btn.btn-secondary:hover {
-  background-color: #fff;
-  color: #2c3e50;
-  transform: translateY(-2px);
+.home-actions a:last-child {
+    background-color: #3498db;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin: 0 0.5rem;
+    border: 2px solid transparent;
+}
+
+.home-actions a:last-child:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* AGGIUNTA: Media Query per i pulsanti della homepage */
+@media (max-width: 768px) {
+    .home-content {
+        padding: 1rem; /* Riduci il padding su mobile */
+    }
+
+    .home-actions {
+        flex-direction: column; /* Impila i pulsanti in verticale */
+        align-items: stretch; /* Fa in modo che i pulsanti occupino tutta la larghezza */
+        width: 80%; /* Limita la larghezza del contenitore dei pulsanti */
+        max-width: 300px; /* Imposta una larghezza massima */
+    }
+
+    .home-actions .btn {
+        width: 100%; /* I pulsanti occupano tutta la larghezza del loro contenitore */
+        margin: 0.5rem 0; /* Aggiunge spazio verticale tra i pulsanti */
+        font-size: 1rem;
+    }
+
+    .home-actions .separator {
+        display: none; /* Nasconde il separatore "Ora" su mobile per un look più pulito */
+    }
 }
