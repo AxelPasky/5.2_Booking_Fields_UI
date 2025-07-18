@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next'; 
 import './CreateBookingPage.css'; 
 
 // Usiamo l'API pubblica per ora
@@ -10,6 +11,7 @@ function CreateBookingPage() {
     const { fieldId } = useParams();
     const { token } = useAuth();
     const navigate = useNavigate();
+    const { t } = useTranslation(); 
 
     const [field, setField] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -120,7 +122,7 @@ function CreateBookingPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (selectedSlots.length === 0) {
-            setError('Please select at least one time slot.');
+            setError(t('selectSlotError'));
             return;
         }
 
@@ -157,7 +159,7 @@ function CreateBookingPage() {
                 throw new Error(errorData.message || 'Failed to create booking.');
             }
 
-            alert('Booking created successfully!');
+            alert(t('bookingCreatedSuccess'));
             navigate('/bookings');
 
         } catch (err) {
@@ -165,23 +167,23 @@ function CreateBookingPage() {
         }
     };
 
-    if (loading) return <div className="loading-message">Loading field information...</div>;
-    if (error) return <div className="error-message">Error: {error}</div>;
-    if (!field) return <div className="error-message">Field not found.</div>;
+    if (loading) return <div className="loading-message">{t('loadingFieldInfo')}</div>;
+    if (error) return <div className="error-message">{t('error', { message: error })}</div>;
+    if (!field) return <div className="error-message">{t('fieldNotFound')}</div>;
 
     return (
         <div className="booking-page-container">
             <div className="booking-form-card">
-                <h2>Book: {field.name}</h2>
+                <h2>{t('bookField', { fieldName: field.name })}</h2>
                 <p className="field-description">{field.description}</p>
                 {/* MODIFICA: Usa 'price_per_hour' come fornito dall'API */}
-                <p className="field-price">Rate: <strong>€{parseFloat(field.price_per_hour || 0).toFixed(2)} / hour</strong></p>
+                <p className="field-price">{t('rate')}: <strong>€{parseFloat(field.price_per_hour || 0).toFixed(2)} {t('perHour')}</strong></p>
                 
                 <hr />
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="booking-date">1. Select a Date</label>
+                        <label htmlFor="booking-date">{t('selectDate')}</label>
                         <input
                             type="date"
                             id="booking-date"
@@ -194,8 +196,8 @@ function CreateBookingPage() {
 
                     {selectedDate && (
                         <div className="form-group">
-                            <label>2. Select an Available Time Slot</label>
-                            {loadingSlots && <p>Loading slots...</p>}
+                            <label>{t('selectTimeSlot')}</label>
+                            {loadingSlots && <p>{t('loadingSlots')}</p>}
                             <div className="slots-container">
                                 {availability.length > 0 ? (
                                     availability
@@ -219,7 +221,7 @@ function CreateBookingPage() {
                                             );
                                         })
                                 ) : (
-                                    !loadingSlots && <p>No available slots for this date.</p>
+                                    !loadingSlots && <p>{t('noSlotsAvailable')}</p>
                                 )}
                             </div>
                         </div>
@@ -228,12 +230,12 @@ function CreateBookingPage() {
                     {/* MODIFICA: Mostra il prezzo solo se sono stati selezionati degli slot */}
                     {selectedSlots.length > 0 && (
                         <div className="price-summary">
-                            Total Price: <strong>€{totalPrice.toFixed(2)}</strong>
+                            {t('totalPrice')}: <strong>€{totalPrice.toFixed(2)}</strong>
                         </div>
                     )}
 
                     <button type="submit" className="submit-booking-button" disabled={selectedSlots.length === 0}>
-                        Confirm Booking
+                        {t('confirmBooking')}
                     </button>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './FieldsList.css';
 
 // Torniamo a usare direttamente l'URL pubblico per ora
@@ -11,6 +12,7 @@ function FieldsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { token } = useAuth(); // Usa il token dal context!
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Questo controllo non è più necessario!
@@ -53,33 +55,38 @@ function FieldsList() {
   }, [token]); // Riesegui l'effetto se il token cambia
 
   if (loading) {
-    return <div className="loading-message">Loading fields...</div>;
+    return <div className="loading-message">{t('loadingFields')}</div>;
   }
 
   if (error) {
-    return <div className="error-message">Error: {error}</div>;
+    return <div className="error-message">{t('error', { message: error })}</div>;
   }
 
   return (
     <div className="fields-list-container">
-      <h2>Available Fields</h2>
+      <h2>{t('availableFields')}</h2>
       <ul className="fields-grid">
         {fields.map((field) => (
           <li key={field.id} className="field-card">
             <div className="field-card" key={field.id}>
-              <img src={field.image || 'https://via.placeholder.com/300x200'} alt={field.name} className="field-image" />
+              <img
+                src={`/Images/${field.name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
+                alt={field.name}
+                className="field-image"
+                onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x200'; }}
+              />
               <div className="field-info">
                 <h3>{field.name}</h3>
                 <div className="field-details">
                   <span>{field.type}</span>
                   {/* MODIFICA: Usa 'price_per_hour' */}
-                  <span className="price">€{parseFloat(field.price_per_hour).toFixed(2)} / hour</span>
+                  <span className="price">€{parseFloat(field.price_per_hour).toFixed(2)} {t('perHour')}</span>
                 </div>
                 <p>{field.description}</p>
                 <div className="field-actions">
                   {token && (
                     <Link to={`/book/${field.id}`} className="book-now-button">
-                      Book Now
+                      {t('bookNow')}
                     </Link>
                   )}
                 </div>

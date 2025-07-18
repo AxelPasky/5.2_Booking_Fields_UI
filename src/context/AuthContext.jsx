@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
         // NON salviamo più il token e NON aggiorniamo lo stato.
         // Reindirizziamo semplicemente alla pagina di login con un messaggio di stato.
         navigate('/login', {
-            state: { message: 'Registration successful! Please log in.' }
+            state: { message: 'registrationSuccess' } // Usa la chiave di traduzione
         });
     };
 

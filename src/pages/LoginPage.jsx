@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useLocation } from 'react-router-dom'; // <-- Importa useLocation
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Importa
 import './AuthForm.css';
 
 function LoginPage() {
@@ -9,7 +10,8 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
-    const location = useLocation(); // <-- Usa l'hook per accedere allo stato della navigazione
+    const location = useLocation();
+    const { t } = useTranslation(); // Inizializza
 
     // Controlla se c'è un messaggio di successo passato dallo stato della rotta
     const successMessage = location.state?.message;
@@ -30,12 +32,12 @@ function LoginPage() {
     return (
         <div className="auth-form-container">
             <form onSubmit={handleSubmit} className="auth-form">
-                <h2>Login</h2>
+                <h2>{t('login')}</h2>
                 {/* Mostra il messaggio di successo se esiste */}
-                {successMessage && <p className="success-message">{successMessage}</p>}
+                {successMessage && <p className="success-message">{t(successMessage)}</p>}
                 {error && <p className="error-message">{error}</p>}
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">{t('email')}</label>
                     <input
                         type="email"
                         id="email"
@@ -45,7 +47,7 @@ function LoginPage() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">{t('password')}</label>
                     <input
                         type="password"
                         id="password"
@@ -55,7 +57,7 @@ function LoginPage() {
                     />
                 </div>
                 <button type="submit" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
+                    {loading ? t('loggingIn') : t('login')}
                 </button>
             </form>
         </div>

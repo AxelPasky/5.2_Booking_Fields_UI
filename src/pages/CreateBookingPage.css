@@ -3,14 +3,18 @@
     justify-content: center;
     align-items: flex-start;
     padding: 2rem;
-    background-color: #f4f7f6;
+    /* Rimuoviamo lo sfondo per far vedere il video */
+    background-color: transparent; 
     min-height: calc(100vh - 80px); /* Sottrae l'altezza della navbar */
 }
 
 .booking-form-card {
-    background-color: #fff;
+    /* Stile semi-trasparente come la pagina di login */
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    color: #fff; /* Testo bianco per contrasto */
     padding: 2rem 2.5rem;
-    border-radius: 8px;
+    border-radius: 15px; /* Angoli arrotondati */
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     width: 100%;
     max-width: 600px;
@@ -18,27 +22,27 @@
 
 .booking-form-card h2 {
     text-align: center;
-    color: #333;
+    color: #fff; /* Testo bianco */
     margin-top: 0;
     margin-bottom: 0.5rem;
 }
 
 .field-description {
     text-align: center;
-    color: #666;
+    color: #eee; /* Testo più chiaro */
     margin-bottom: 1rem;
 }
 
 .field-price {
     text-align: center;
     font-size: 1.2rem;
-    color: #28a745;
+    color: #4CAF50; /* Verde per il prezzo */
     margin-bottom: 1.5rem;
 }
 
 .booking-form-card hr {
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Separatore più tenue */
     margin: 1.5rem 0;
 }
 
@@ -50,16 +54,24 @@
     display: block;
     font-weight: bold;
     margin-bottom: 0.75rem;
-    color: #555;
+    color: #fff; /* Testo bianco */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Ombra per leggibilità */
 }
 
 .form-group input[type="date"] {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Bordo più tenue */
     border-radius: 4px;
     font-size: 1rem;
     box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1); /* Sfondo input semi-trasparente */
+    color: #fff; /* Testo bianco */
+}
+
+/* Stile per l'icona del calendario su browser Webkit (Chrome, Safari) */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
 }
 
 .slots-container {
@@ -70,9 +82,9 @@
 
 .slot-button {
     padding: 0.8rem;
-    border: 1px solid #007bff;
-    background-color: #fff;
-    color: #007bff;
+    border: 1px solid #4CAF50; /* Bordo verde */
+    background-color: transparent; /* Sfondo trasparente */
+    color: #fff; /* Testo bianco */
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -80,11 +92,11 @@
 }
 
 .slot-button:hover {
-    background-color: #e6f2ff;
+    background-color: rgba(76, 175, 80, 0.2); /* Sfondo verde tenue in hover */
 }
 
 .slot-button.selected {
-    background-color: #007bff;
+    background-color: #4CAF50; /* Verde pieno quando selezionato */
     color: #fff;
 }
 
@@ -92,17 +104,17 @@
     text-align: right;
     font-size: 1.3rem;
     margin: 1.5rem 0;
-    color: #333;
+    color: #eee; /* Testo più chiaro */
 }
 
 .price-summary strong {
-    color: #28a745;
+    color: #4CAF50; /* Verde per il prezzo */
 }
 
 .submit-booking-button {
     width: 100%;
     padding: 0.9rem;
-    background-color: #007bff;
+    background-color: #4CAF50; /* Pulsante verde primario */
     color: white;
     border: none;
     border-radius: 5px;
@@ -113,10 +125,10 @@
 }
 
 .submit-booking-button:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #45a049; /* Verde più scuro in hover */
 }
 
 .submit-booking-button:disabled {
-    background-color: #a0c3e6;
+    background-color: #cccccc; /* Grigio quando disabilitato */
     cursor: not-allowed;
 }
